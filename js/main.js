@@ -1,36 +1,40 @@
 'use strict';
 
-const getRandomData = () => {
-  const COUNT_ITEM = 8;
-  const PRICE_MAX = 10000;
-  const ROOMS_MAX = 10;
-  const GUESTS_MAX = 100;
-  const TYPES = [
-    `palace`,
-    `flat`,
-    `house`,
-    `bungalow`
-  ];
-  const TIMES = [
-    `12:00`,
-    `13:00`,
-    `14:00`
-  ];
-  const FEATURES = [
-    `wifi`,
-    `dishwasher`,
-    `parking`,
-    `washer`,
-    `elevator`,
-    `conditioner`
-  ];
-  const PHOTOS = [
-    `http://o0.github.io/assets/images/tokyo/hotel1.jpg`,
-    `http://o0.github.io/assets/images/tokyo/hotel2.jpg`,
-    `http://o0.github.io/assets/images/tokyo/hotel3.jpg`
-  ];
+const COUNT_ITEM = 8;
+const PRICE_MAX = 10000;
+const ROOMS_MAX = 10;
+const GUESTS_MAX = 100;
+const COORDINATE_Y_RANGE = 501;
+const COORDINATE_Y_OFFSET = 130;
+const MAP_PIN_GAP_X = 25;
+const MAP_PIN_GAP_Y = 70;
+const TYPES = [
+  `palace`,
+  `flat`,
+  `house`,
+  `bungalow`
+];
+const TIMES = [
+  `12:00`,
+  `13:00`,
+  `14:00`
+];
+const FEATURES = [
+  `wifi`,
+  `dishwasher`,
+  `parking`,
+  `washer`,
+  `elevator`,
+  `conditioner`
+];
+const PHOTOS = [
+  `http://o0.github.io/assets/images/tokyo/hotel1.jpg`,
+  `http://o0.github.io/assets/images/tokyo/hotel2.jpg`,
+  `http://o0.github.io/assets/images/tokyo/hotel3.jpg`
+];
 
-  let data = [];
+const getRandomData = () => {
+  const data = [];
 
   const getRandomNumber = (max, offset = 0) => {
     return Math.floor((Math.random() * Math.floor(max)) + offset);
@@ -54,9 +58,6 @@ const getRandomData = () => {
   };
 
   const getRandomCoordinateY = () => {
-    const COORDINATE_Y_RANGE = 501;
-    const COORDINATE_Y_OFFSET = 130;
-
     return getRandomNumber(COORDINATE_Y_RANGE, COORDINATE_Y_OFFSET);
   };
 
@@ -102,10 +103,10 @@ const getRandomData = () => {
 
 const createMapPin = (data, template) => {
   const mapPinItem = template.cloneNode(true);
-  let mapPinImg = mapPinItem.querySelector(`img`);
+  const mapPinImg = mapPinItem.querySelector(`img`);
 
-  mapPinItem.style.left = String(data.location.x) + `px`;
-  mapPinItem.style.top = String(data.location.y) + `px`;
+  mapPinItem.style.left = String(data.location.x - MAP_PIN_GAP_X) + `px`;
+  mapPinItem.style.top = String(data.location.y - MAP_PIN_GAP_Y) + `px`;
   mapPinImg.src = data.author.avatar;
   mapPinImg.alt = data.offer.title;
 
@@ -115,10 +116,11 @@ const createMapPin = (data, template) => {
 const renderMapPins = () => {
   const mapPinTemplate = document.querySelector(`#pin`).content.querySelector(`.map__pin`);
   const mapPinsContainer = document.querySelector(`.map__pins`);
-  let fragment = document.createDocumentFragment();
+  const fragment = document.createDocumentFragment();
 
   getRandomData().forEach((pinData) => {
     const mapPin = createMapPin(pinData, mapPinTemplate);
+
     fragment.appendChild(mapPin);
   });
 
