@@ -99,3 +99,30 @@ const getRandomData = () => {
 
   return data;
 };
+
+const createMapPin = (data, template) => {
+  const mapPinItem = template.cloneNode(true);
+  let mapPinImg = mapPinItem.querySelector(`img`);
+
+  mapPinItem.style.left = String(data.location.x) + `px`;
+  mapPinItem.style.top = String(data.location.y) + `px`;
+  mapPinImg.src = data.author.avatar;
+  mapPinImg.alt = data.offer.title;
+
+  return mapPinItem;
+};
+
+const renderMapPins = () => {
+  const mapPinTemplate = document.querySelector(`#pin`).content.querySelector(`.map__pin`);
+  const mapPinsContainer = document.querySelector(`.map__pins`);
+  let fragment = document.createDocumentFragment();
+
+  getRandomData().forEach((pinData) => {
+    const mapPin = createMapPin(pinData, mapPinTemplate);
+    fragment.appendChild(mapPin);
+  });
+
+  mapPinsContainer.appendChild(fragment);
+};
+
+renderMapPins();
