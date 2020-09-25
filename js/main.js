@@ -8,11 +8,13 @@ const COORDINATE_Y_RANGE = 501;
 const COORDINATE_Y_OFFSET = 130;
 const MAP_PIN_GAP_X = 25;
 const MAP_PIN_GAP_Y = 70;
+const TITLE_LENGTH = 8;
+const DESCRIPTION_LENGTH = 200;
 const TYPES = [
-  `palace`,
-  `flat`,
-  `house`,
-  `bungalow`
+  {"palace": `Дворец`},
+  {"flat": `Квартира`},
+  {"house": `Дом`},
+  {"bungalow": `Бунгало`}
 ];
 const TIMES = [
   `12:00`,
@@ -71,22 +73,26 @@ const getRandomData = () => {
     });
   };
 
+  const getType = () => {
+    return Object.keys(getRandomArrayValue(TYPES))[0];
+  };
+
   for (let i = 1; i <= COUNT_ITEM; i++) {
     const item = {
       "author": {
         "avatar": `img/avatars/user0${i}.png`
       },
       "offer": {
-        "title": getRandomString(8),
+        "title": getRandomString(TITLE_LENGTH),
         "address": `${getRandomCoordinateX()}, ${getRandomCoordinateY()}`,
         "price": getRandomNumber(PRICE_MAX),
-        "type": getRandomArrayValue(TYPES),
-        "rooms": getRandomNumber(ROOMS_MAX),
-        "guests": getRandomNumber(GUESTS_MAX),
+        "type": getType(),
+        "rooms": getRandomNumber(ROOMS_MAX, 1),
+        "guests": getRandomNumber(GUESTS_MAX, 1),
         "checkin": getRandomArrayValue(TIMES),
         "checkout": getRandomArrayValue(TIMES),
         "features": getRandomLengthArrayValues(FEATURES),
-        "description": getRandomString(200),
+        "description": getRandomString(DESCRIPTION_LENGTH),
         "photos": getRandomLengthArrayValues(PHOTOS),
       },
       "location": {
@@ -105,20 +111,20 @@ const createMapPin = (data, template) => {
   const mapPinItem = template.cloneNode(true);
   const mapPinImg = mapPinItem.querySelector(`img`);
 
-  mapPinItem.style.left = String(data.location.x - MAP_PIN_GAP_X) + `px`;
-  mapPinItem.style.top = String(data.location.y - MAP_PIN_GAP_Y) + `px`;
+  mapPinItem.style.left = `${String(data.location.x - MAP_PIN_GAP_X)}px`;
+  mapPinItem.style.top = `${String(data.location.y - MAP_PIN_GAP_Y)}px`;
   mapPinImg.src = data.author.avatar;
   mapPinImg.alt = data.offer.title;
 
   return mapPinItem;
 };
 
-const renderMapPins = () => {
+const renderMapPins = (data) => {
   const mapPinTemplate = document.querySelector(`#pin`).content.querySelector(`.map__pin`);
   const mapPinsContainer = document.querySelector(`.map__pins`);
   const fragment = document.createDocumentFragment();
 
-  getRandomData().forEach((pinData) => {
+  data.forEach((pinData) => {
     const mapPin = createMapPin(pinData, mapPinTemplate);
 
     fragment.appendChild(mapPin);
@@ -127,4 +133,60 @@ const renderMapPins = () => {
   mapPinsContainer.appendChild(fragment);
 };
 
-renderMapPins();
+const createCard = (data, template) => {
+  const cardItem = template.cloneNode(true);
+
+  const getType = (key) => {
+    return TYPES.filter((item) => {
+      return key in item;
+    })[0][key];
+  };
+
+  const createFeaturesList = (features) => {
+    let featuresList = cardItem.querySelector(`.popup__features`);
+    let newList = featuresList.cloneNode();
+
+    features.forEach((feature) => {
+      newList.appendChild(featuresList.querySelector(`.popup__feature--${feature}`));
+    });
+
+    for (let i = featuresList.children.length - 1; i >= 0; i--) {
+      featuresList.children[i].classList.add(`hidden`);
+    }
+
+    for (let i = newList.children.length - 1; i >= 0; i--) {
+      featuresList.appendChild(newList.children[i]);
+    }
+  };
+
+  cardItem.querySelector(`.popup__title`).textContent = data.offer.title;
+  cardItem.querySelector(`.popup__text--address`).textContent = data.offer.address;
+  cardItem.querySelector(`.popup__text--price`).textContent = `${data.offer.price}₽/ночь`;
+  cardItem.querySelector(`.popup__type`).textContent = getType(data.offer.type);
+  cardItem.querySelector(`.popup__text--capacity`).textContent = `${data.offer.rooms} комнаты для ${data.offer.guests} гостей`;
+  cardItem.querySelector(`.popup__text--time`).innerHTML = `${data.offer.checkin}, выезд&nbsp;до ${data.offer.checkout}`;
+  createFeaturesList(data.offer.features);
+  cardItem.querySelector(`.popup__description`).textContent = data.offer.description;
+
+  return cardItem;
+};
+
+const renderCard = (data) => {
+  const cardTemplate = document.querySelector(`#card`).content.querySelector(`.map__card`);
+  const cardContainer = document.querySelector(`.map`);
+  const cardPositionMarker = document.querySelector(`.map__filters-container`);
+  const fragment = document.createDocumentFragment();
+  const card = createCard(data, cardTemplate);
+
+  fragment.appendChild(card);
+  cardContainer.insertBefore(fragment, cardPositionMarker);
+};
+
+const renderData = () => {
+  const randomData = getRandomData();
+
+  renderMapPins(randomData);
+  renderCard(randomData[0]);
+};
+
+renderData();
