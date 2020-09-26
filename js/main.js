@@ -143,8 +143,8 @@ const createCard = (data, template) => {
   };
 
   const createFeaturesList = (features) => {
-    let featuresList = cardItem.querySelector(`.popup__features`);
-    let newList = featuresList.cloneNode();
+    const featuresList = cardItem.querySelector(`.popup__features`);
+    const newList = featuresList.cloneNode();
 
     features.forEach((feature) => {
       newList.appendChild(featuresList.querySelector(`.popup__feature--${feature}`));
@@ -159,6 +159,19 @@ const createCard = (data, template) => {
     }
   };
 
+  const createPhotosList = (photos) => {
+    const photosList = cardItem.querySelector(`.popup__photos`);
+    const photoTemplate = photosList.querySelector(`.popup__photo`);
+
+    photos.forEach((photo) => {
+      const currentPhoto = photoTemplate.cloneNode();
+      currentPhoto.src = photo;
+      photosList.appendChild(currentPhoto);
+    });
+
+    photosList.removeChild(photoTemplate);
+  };
+
   cardItem.querySelector(`.popup__title`).textContent = data.offer.title;
   cardItem.querySelector(`.popup__text--address`).textContent = data.offer.address;
   cardItem.querySelector(`.popup__text--price`).textContent = `${data.offer.price}₽/ночь`;
@@ -167,6 +180,8 @@ const createCard = (data, template) => {
   cardItem.querySelector(`.popup__text--time`).innerHTML = `${data.offer.checkin}, выезд&nbsp;до ${data.offer.checkout}`;
   createFeaturesList(data.offer.features);
   cardItem.querySelector(`.popup__description`).textContent = data.offer.description;
+  createPhotosList(data.offer.photos);
+  cardItem.querySelector(`.popup__avatar`).src = data.author.avatar;
 
   return cardItem;
 };
