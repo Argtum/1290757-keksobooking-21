@@ -138,7 +138,7 @@ const createCard = (data, template) => {
 
   const getType = (key) => {
     return TYPES.filter((item) => {
-      return key in item;
+      return item.hasOwnProperty(key);
     })[0][key];
   };
 
