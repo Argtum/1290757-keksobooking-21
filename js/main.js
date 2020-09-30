@@ -204,4 +204,24 @@ const renderData = () => {
   renderCard(randomData[0]);
 };
 
-renderData();
+const deactivationForm = (form) => {
+  const formDisabled = form.cloneNode(true);
+
+  for (let item of formDisabled.children) {
+    item.disabled = true;
+  }
+
+  form.innerHTML = null;
+  form.insertAdjacentHTML(`beforeend`, formDisabled.innerHTML);
+};
+
+const deactivation = () => {
+  const addForm = document.querySelector(`.ad-form`);
+  const filter = document.querySelector(`.map__filters`);
+
+  deactivationForm(addForm);
+  deactivationForm(filter);
+};
+
+deactivation();
+//renderData();
