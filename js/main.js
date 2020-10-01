@@ -10,6 +10,7 @@ const MAP_PIN_GAP_X = 25;
 const MAP_PIN_GAP_Y = 70;
 const TITLE_LENGTH = 8;
 const DESCRIPTION_LENGTH = 200;
+const BASE = 10;
 const TYPES = [
   {"palace": `Дворец`},
   {"flat": `Квартира`},
@@ -226,6 +227,31 @@ const activationForm = (form) => {
   form.insertAdjacentHTML(`beforeend`, formDisabled.innerHTML);
 };
 
+const getMapPinCoordinate = () => {
+  const map = document.querySelector(`.map`);
+  const mapPinMain = map.querySelector(`.map__pin--main`);
+  const pinOffsetX = mapPinMain.offsetLeft;
+  const pinOffsetY = mapPinMain.offsetTop;
+  const pinWidth = mapPinMain.offsetWidth;
+  const pinHeight = mapPinMain.clientHeight;
+  const coordinateX = Math.floor(pinOffsetX + (pinWidth / 2));
+
+  if (!map.classList.contains(`map--faded`)) {
+    const activePinHeight = parseInt(getComputedStyle(mapPinMain, `:after`).height, BASE);
+    const coordinateY = Math.floor(pinOffsetY + pinHeight + activePinHeight);
+
+    return `${coordinateX}, ${coordinateY}`;
+  }
+
+  const coordinateY = Math.floor(pinOffsetY + (pinHeight / 2));
+
+  return `${coordinateX}, ${coordinateY}`;
+};
+
+const setAddress = () => {
+  document.querySelector(`#address`).value = getMapPinCoordinate();
+};
+
 const deactivation = () => {
   const addForm = document.querySelector(`.ad-form`);
   const filter = document.querySelector(`.map__filters`);
@@ -244,6 +270,7 @@ const activation = () => {
 
   activationForm(addForm);
   activationForm(filter);
+  setAddress();
   //renderData();
 };
 
@@ -265,3 +292,4 @@ const addNotice = () => {
 
 deactivation();
 addNotice();
+setAddress();
