@@ -215,6 +215,17 @@ const deactivationForm = (form) => {
   form.insertAdjacentHTML(`beforeend`, formDisabled.innerHTML);
 };
 
+const activationForm = (form) => {
+  const formDisabled = form.cloneNode(true);
+
+  for (let item of formDisabled.children) {
+    item.disabled = false;
+  }
+
+  form.innerHTML = null;
+  form.insertAdjacentHTML(`beforeend`, formDisabled.innerHTML);
+};
+
 const deactivation = () => {
   const addForm = document.querySelector(`.ad-form`);
   const filter = document.querySelector(`.map__filters`);
@@ -223,5 +234,34 @@ const deactivation = () => {
   deactivationForm(filter);
 };
 
+const activation = () => {
+  const map = document.querySelector(`.map`);
+  const addForm = document.querySelector(`.ad-form`);
+  const filter = map.querySelector(`.map__filters`);
+
+  map.classList.remove(`map--faded`);
+  addForm.classList.remove(`ad-form--disabled`);
+
+  activationForm(addForm);
+  activationForm(filter);
+  //renderData();
+};
+
+const addNotice = () => {
+  const mapPinMain = document.querySelector(`.map__pin--main`);
+
+  mapPinMain.addEventListener(`mousedown`, (evt) => {
+    if (evt.button === 0) {
+      activation();
+    }
+  });
+
+  mapPinMain.addEventListener(`keydown`, (evt) => {
+    if (evt.key === `Enter`) {
+      activation();
+    }
+  });
+};
+
 deactivation();
-//renderData();
+addNotice();
