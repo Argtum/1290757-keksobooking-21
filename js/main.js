@@ -10,11 +10,32 @@ const MAP_PIN_GAP_X = 25;
 const MAP_PIN_GAP_Y = 70;
 const TITLE_LENGTH = 8;
 const DESCRIPTION_LENGTH = 200;
+const BASE = 10;
 const TYPES = [
-  {"palace": `Дворец`},
-  {"flat": `Квартира`},
-  {"house": `Дом`},
-  {"bungalow": `Бунгало`}
+  {"palace":
+    {
+      name: `Дворец`,
+      price: 10000
+    }
+  },
+  {"flat":
+    {
+      name: `Квартира`,
+      price: 1000
+    }
+  },
+  {"house":
+    {
+      name: `Дом`,
+      price: 5000
+    }
+  },
+  {"bungalow":
+    {
+      name: `Бунгало`,
+      price: 0
+    }
+  }
 ];
 const TIMES = [
   `12:00`,
@@ -133,14 +154,14 @@ const renderMapPins = (data) => {
   mapPinsContainer.appendChild(fragment);
 };
 
+const getTypeValue = (key, value) => {
+  return TYPES.filter((item) => {
+    return item.hasOwnProperty(key);
+  })[0][key][value];
+};
+
 const createCard = (data, template) => {
   const cardItem = template.cloneNode(true);
-
-  const getType = (key) => {
-    return TYPES.filter((item) => {
-      return item.hasOwnProperty(key);
-    })[0][key];
-  };
 
   const createFeaturesList = (features) => {
     const featuresList = cardItem.querySelector(`.popup__features`);
@@ -175,7 +196,7 @@ const createCard = (data, template) => {
   cardItem.querySelector(`.popup__title`).textContent = data.offer.title;
   cardItem.querySelector(`.popup__text--address`).textContent = data.offer.address;
   cardItem.querySelector(`.popup__text--price`).textContent = `${data.offer.price}₽/ночь`;
-  cardItem.querySelector(`.popup__type`).textContent = getType(data.offer.type);
+  cardItem.querySelector(`.popup__type`).textContent = getTypeValue(data.offer.type, `name`);
   cardItem.querySelector(`.popup__text--capacity`).textContent = `${data.offer.rooms} комнаты для ${data.offer.guests} гостей`;
   cardItem.querySelector(`.popup__text--time`).innerHTML = `${data.offer.checkin}, выезд&nbsp;до ${data.offer.checkout}`;
   createFeaturesList(data.offer.features);
@@ -204,4 +225,137 @@ const renderData = () => {
   renderCard(randomData[0]);
 };
 
-renderData();
+const getMapPinCoordinate = () => {
+  const map = document.querySelector(`.map`);
+  const mapPinMain = map.querySelector(`.map__pin--main`);
+  const pinOffsetX = mapPinMain.offsetLeft;
+  const pinOffsetY = mapPinMain.offsetTop;
+  const pinWidth = mapPinMain.offsetWidth;
+  const pinHeight = mapPinMain.clientHeight;
+  const coordinateX = Math.floor(pinOffsetX + (pinWidth / 2));
+
+  if (!map.classList.contains(`map--faded`)) {
+    const activePinHeight = parseInt(getComputedStyle(mapPinMain, `:after`).height, BASE);
+    const coordinateY = Math.floor(pinOffsetY + pinHeight + activePinHeight);
+
+    return `${coordinateX}, ${coordinateY}`;
+  }
+
+  const coordinateY = Math.floor(pinOffsetY + (pinHeight / 2));
+
+  return `${coordinateX}, ${coordinateY}`;
+};
+
+const toggleForm = (form) => {
+  const formDisabled = form.cloneNode(true);
+
+  for (let item of formDisabled.children) {
+    item.disabled = !item.disabled;
+  }
+
+  form.innerHTML = null;
+  form.insertAdjacentHTML(`beforeend`, formDisabled.innerHTML);
+};
+
+const setAddress = () => {
+  document.querySelector(`#address`).value = getMapPinCoordinate();
+};
+
+const deactivation = () => {
+  const addForm = document.querySelector(`.ad-form`);
+  const filter = document.querySelector(`.map__filters`);
+
+  toggleForm(addForm);
+  toggleForm(filter);
+};
+
+const validation = () => {
+  const type = document.querySelector(`#type`);
+  const timein = document.querySelector(`#timein`);
+  const timeout = document.querySelector(`#timeout`);
+  const roomNumber = document.querySelector(`#room_number`);
+
+  const setPriceMinRange = (value) => {
+    const priceField = document.querySelector(`#price`);
+    const priceValue = String(getTypeValue(value, `price`));
+
+    priceField.placeholder = priceValue;
+    priceField.min = priceValue;
+  };
+
+  const setTime = (value, field) => {
+    if (field === timein) {
+      timeout.value = value;
+    } else {
+      timein.value = value;
+    }
+  };
+
+  const setNumPlaces = (value) => {
+    const capacity = document.querySelector(`#capacity`);
+    const capacityFiltered = capacity.cloneNode(true);
+
+    for (let i = capacityFiltered.children.length - 1; i >= 0; i--) {
+      if (value === `100`) {
+        capacityFiltered.children[i].disabled = capacityFiltered.children[i].value !== `0`;
+      } else {
+        capacityFiltered.children[i].disabled = capacityFiltered.children[i].value > value || capacityFiltered.children[i].value === `0`;
+      }
+    }
+
+    capacity.innerHTML = null;
+    capacity.insertAdjacentHTML(`beforeend`, capacityFiltered.innerHTML);
+    capacity.value = value !== `100` ? value : `0`;
+  };
+
+  type.addEventListener(`input`, (evt) => {
+    setPriceMinRange(evt.target.value);
+  });
+
+  timein.addEventListener(`input`, (evt) => {
+    setTime(evt.target.value, timein);
+  });
+
+  timeout.addEventListener(`input`, (evt) => {
+    setTime(evt.target.value, timeout);
+  });
+
+  roomNumber.addEventListener(`input`, (evt) => {
+    setNumPlaces(evt.target.value);
+  });
+};
+
+const activation = () => {
+  const map = document.querySelector(`.map`);
+  const addForm = document.querySelector(`.ad-form`);
+  const filter = map.querySelector(`.map__filters`);
+
+  map.classList.remove(`map--faded`);
+  addForm.classList.remove(`ad-form--disabled`);
+
+  toggleForm(addForm);
+  toggleForm(filter);
+  setAddress();
+  validation();
+  renderData();
+};
+
+const addNotice = () => {
+  const mapPinMain = document.querySelector(`.map__pin--main`);
+
+  mapPinMain.addEventListener(`mousedown`, (evt) => {
+    if (evt.button === 0) {
+      activation();
+    }
+  });
+
+  mapPinMain.addEventListener(`keydown`, (evt) => {
+    if (evt.key === `Enter`) {
+      activation();
+    }
+  });
+};
+
+deactivation();
+addNotice();
+setAddress();
