@@ -39,7 +39,7 @@
   };
 
   window.pin = {
-    "createMapPin": createMapPin,
-    "getMapPinCoordinate": getMapPinCoordinate
+    createMapPin,
+    getMapPinCoordinate
   };
 })();
