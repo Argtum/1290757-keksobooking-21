@@ -6,8 +6,8 @@
     const mapPinsContainer = document.querySelector(`.map__pins`);
     const fragment = document.createDocumentFragment();
 
-    data.forEach((pinData) => {
-      const mapPin = window.pin.createMapPin(pinData, mapPinTemplate);
+    data.forEach((pinData, index) => {
+      const mapPin = window.pin.createMapPin(pinData, mapPinTemplate, index);
 
       fragment.appendChild(mapPin);
     });
@@ -30,11 +30,13 @@
     window.data.getData((data) => {
       renderMapPins(data);
       renderCard(data[0]);
+      window.data.adsData = data;
       window.map.onMapClick();
     });
   };
 
   window.render = {
     renderData,
+    renderCard
   };
 })();

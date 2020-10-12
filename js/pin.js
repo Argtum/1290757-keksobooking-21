@@ -5,12 +5,13 @@
   const MAP_PIN_GAP_Y = 70;
   const BASE = 10;
 
-  const createMapPin = (data, template) => {
+  const createMapPin = (data, template, index) => {
     const mapPinItem = template.cloneNode(true);
     const mapPinImg = mapPinItem.querySelector(`img`);
 
     mapPinItem.style.left = `${String(data.location.x - MAP_PIN_GAP_X)}px`;
     mapPinItem.style.top = `${String(data.location.y - MAP_PIN_GAP_Y)}px`;
+    mapPinItem.dataset.index = index;
     mapPinImg.src = data.author.avatar;
     mapPinImg.alt = data.offer.title;
 

@@ -52,11 +52,19 @@
     const map = document.querySelector(`.map`);
     const card = map.querySelector(`.map__card`);
 
-    map.removeChild(card);
+    if (card) {
+      map.removeChild(card);
+    }
+  };
+
+  const openCard = () => {
+    closeCard();
+    window.render.renderCard(window.data.adsData[1]);
   };
 
   window.card = {
     createCard,
-    closeCard
+    closeCard,
+    openCard
   };
 })();
