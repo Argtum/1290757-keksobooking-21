@@ -22,8 +22,8 @@
   };
 
   window.util = {
-    "isEnterEvent": isEnterEvent,
-    "isLeftMouseButtonEvent": isLeftMouseButtonEvent,
-    "isInputEvent": isInputEvent
+    isEnterEvent,
+    isLeftMouseButtonEvent,
+    isInputEvent
   };
 })();

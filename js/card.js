@@ -49,6 +49,6 @@
   };
 
   window.card = {
-    "createCard": createCard
+    createCard
   };
 })();

@@ -58,6 +58,6 @@
   };
 
   window.validation = {
-    "validation": validation
+    validation
   };
 })();

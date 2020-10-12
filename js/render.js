@@ -27,13 +27,13 @@
   };
 
   const renderData = () => {
-    const randomData = window.data.getRandomData();
-
-    renderMapPins(randomData);
-    renderCard(randomData[0]);
+    window.data.getData((data) => {
+      renderMapPins(data);
+      renderCard(data[0]);
+    });
   };
 
   window.render = {
-    "renderData": renderData,
+    renderData,
   };
 })();

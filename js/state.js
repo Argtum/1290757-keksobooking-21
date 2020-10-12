@@ -37,7 +37,7 @@
   };
 
   window.state = {
-    "deactivation": deactivation,
-    "init": init,
+    deactivation,
+    init,
   };
 })();

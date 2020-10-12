@@ -17,7 +17,7 @@
   };
 
   window.form = {
-    "toggleForm": toggleForm,
-    "setAddress": setAddress
+    toggleForm,
+    setAddress
   };
 })();

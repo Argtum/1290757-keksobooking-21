@@ -53,11 +53,16 @@
         }
     }
   ];
+  const DATA_URL = `https://21.javascript.pages.academy/keksobooking/data`;
 
   const getTypeValue = (key, value) => {
     return TYPES.filter((item) => {
       return item.hasOwnProperty(key);
     })[0][key][value];
+  };
+
+  const getData = (onSuccess, onError) => {
+    window.load.load(DATA_URL, onSuccess, onError);
   };
 
   const getRandomData = () => {
@@ -133,7 +138,8 @@
   };
 
   window.data = {
-    "getRandomData": getRandomData,
-    "getTypeValue": getTypeValue
+    getRandomData,
+    getTypeValue,
+    getData
   };
 })();
