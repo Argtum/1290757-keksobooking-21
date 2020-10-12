@@ -1,9 +1,11 @@
 'use strict';
 
 (function () {
-  const isEnterEvent = (evt, action) => {
+  const isKeyboardEvent = (evt, action) => {
     if (evt.key === `Enter`) {
       action();
+    } else if (evt.key === `Escape`) {
+      window.card.closeCard();
     }
   };
 
@@ -22,7 +24,7 @@
   };
 
   window.util = {
-    isEnterEvent,
+    isKeyboardEvent,
     isLeftMouseButtonEvent,
     isInputEvent
   };

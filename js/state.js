@@ -32,7 +32,7 @@
     });
 
     mapPinMain.addEventListener(`keydown`, (evt) => {
-      window.util.isEnterEvent(evt, activation);
+      window.util.isKeyboardEvent(evt, activation);
     });
   };
 
