@@ -48,7 +48,15 @@
     return cardItem;
   };
 
+  const closeCard = () => {
+    const map = document.querySelector(`.map`);
+    const card = map.querySelector(`.map__card`);
+
+    map.removeChild(card);
+  };
+
   window.card = {
-    createCard
+    createCard,
+    closeCard
   };
 })();

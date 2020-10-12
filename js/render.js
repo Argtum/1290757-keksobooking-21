@@ -30,6 +30,7 @@
     window.data.getData((data) => {
       renderMapPins(data);
       renderCard(data[0]);
+      window.map.onMapClick();
     });
   };
 
