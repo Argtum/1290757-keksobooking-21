@@ -1,11 +1,17 @@
 'use strict';
 
 (function () {
-  const isKeyboardEvent = (evt, action) => {
+  const isEnterEvent = (evt, action) => {
     if (evt.key === `Enter`) {
+      evt.preventDefault();
       action();
-    } else if (evt.key === `Escape`) {
-      window.card.closeCard();
+    }
+  };
+
+  const isEscapeEvent = (evt, action) => {
+    if (evt.key === `Escape`) {
+      evt.preventDefault();
+      action();
     }
   };
 
@@ -24,8 +30,9 @@
   };
 
   window.util = {
-    isKeyboardEvent,
+    isEnterEvent,
     isLeftMouseButtonEvent,
-    isInputEvent
+    isInputEvent,
+    isEscapeEvent
   };
 })();

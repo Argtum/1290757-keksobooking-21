@@ -9,6 +9,10 @@
         window.util.isLeftMouseButtonEvent(evt, window.card.closeCard);
       }
     });
+
+    map.addEventListener(`keydown`, (evt) => {
+      window.util.isEscapeEvent(evt, window.card.closeCard);
+    });
   };
 
   window.map = {
