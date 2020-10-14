@@ -4,7 +4,7 @@
   const isEnterEvent = (evt, action) => {
     if (evt.key === `Enter`) {
       evt.preventDefault();
-      action();
+      action(evt);
     }
   };
 
@@ -17,7 +17,7 @@
 
   const isLeftMouseButtonEvent = (evt, action) => {
     if (evt.button === 0) {
-      action();
+      action(evt);
     }
   };
 

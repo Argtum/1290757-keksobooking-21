@@ -48,23 +48,55 @@
     return cardItem;
   };
 
-  const closeCard = () => {
+  const onMapClick = () => {
     const map = document.querySelector(`.map`);
-    const card = map.querySelector(`.map__card`);
 
-    if (card) {
-      map.removeChild(card);
-    }
-  };
+    const closeCard = () => {
+      const card = map.querySelector(`.map__card`);
 
-  const openCard = () => {
-    closeCard();
-    window.render.renderCard(window.data.adsData[1]);
+      if (card) {
+        map.removeChild(card);
+      }
+    };
+
+    const openCard = (evt) => {
+      const dataIndex = evt.target.dataset.index ? evt.target.dataset.index : evt.target.parentNode.dataset.index;
+
+      closeCard();
+      window.render.renderCard(window.data.adsData[dataIndex]);
+    };
+
+    const onCardOpen = (evt) => {
+      if (evt.target.closest(`.map__pin`) && !evt.target.closest(`.map__pin--main`)) {
+        if (evt.type === `keydown`) {
+          window.util.isEnterEvent(evt, openCard);
+        } else if (evt.type === `mousedown`) {
+          window.util.isLeftMouseButtonEvent(evt, openCard);
+        }
+      }
+    };
+
+    const onCardClose = (evt) => {
+      if (evt.type === `keydown`) {
+        window.util.isEscapeEvent(evt, closeCard);
+      } else if (evt.type === `mousedown` && evt.target.className === `popup__close`) {
+        window.util.isLeftMouseButtonEvent(evt, closeCard);
+      }
+    };
+
+    map.addEventListener(`mousedown`, (evt) => {
+      onCardOpen(evt);
+      onCardClose(evt);
+    });
+
+    map.addEventListener(`keydown`, (evt) => {
+      onCardOpen(evt);
+      onCardClose(evt);
+    });
   };
 
   window.card = {
     createCard,
-    closeCard,
-    openCard
+    onMapClick
   };
 })();

@@ -28,10 +28,10 @@
 
   const renderData = () => {
     window.data.getData((data) => {
-      renderMapPins(data);
-      renderCard(data[0]);
       window.data.adsData = data;
-      window.map.onMapClick();
+      renderMapPins(window.data.adsData);
+      renderCard(window.data.adsData[0]);
+      window.card.onMapClick();
     });
   };
 
