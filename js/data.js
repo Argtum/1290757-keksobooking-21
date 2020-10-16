@@ -54,6 +54,7 @@
     }
   ];
   const DATA_URL = `https://21.javascript.pages.academy/keksobooking/data`;
+  let adsData;
 
   const getTypeValue = (key, value) => {
     return TYPES.filter((item) => {
@@ -140,6 +141,7 @@
   window.data = {
     getRandomData,
     getTypeValue,
-    getData
+    getData,
+    adsData
   };
 })();

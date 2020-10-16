@@ -6,8 +6,8 @@
     const mapPinsContainer = document.querySelector(`.map__pins`);
     const fragment = document.createDocumentFragment();
 
-    data.forEach((pinData) => {
-      const mapPin = window.pin.createMapPin(pinData, mapPinTemplate);
+    data.forEach((pinData, index) => {
+      const mapPin = window.pin.createMapPin(pinData, mapPinTemplate, index);
 
       fragment.appendChild(mapPin);
     });
@@ -28,12 +28,15 @@
 
   const renderData = () => {
     window.data.getData((data) => {
-      renderMapPins(data);
-      renderCard(data[0]);
+      window.data.adsData = data;
+      renderMapPins(window.data.adsData);
+      renderCard(window.data.adsData[0]);
+      window.card.onMapClick();
     });
   };
 
   window.render = {
     renderData,
+    renderCard
   };
 })();

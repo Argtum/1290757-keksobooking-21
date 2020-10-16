@@ -40,21 +40,22 @@
       capacity.value = value !== `100` ? value : `0`;
     };
 
-    type.addEventListener(`input`, (evt) => {
+    const onSetPriceMinRange = (evt) => {
       window.util.isInputEvent(evt, setPriceMinRange);
-    });
+    };
 
-    timein.addEventListener(`input`, (evt) => {
+    const onSetTime = (evt) => {
       window.util.isInputEvent(evt, setTime);
-    });
+    };
 
-    timeout.addEventListener(`input`, (evt) => {
-      window.util.isInputEvent(evt, setTime);
-    });
-
-    roomNumber.addEventListener(`input`, (evt) => {
+    const onSetNumPlaces = (evt) => {
       window.util.isInputEvent(evt, setNumPlaces);
-    });
+    };
+
+    type.addEventListener(`input`, onSetPriceMinRange);
+    timein.addEventListener(`input`, onSetTime);
+    timeout.addEventListener(`input`, onSetTime);
+    roomNumber.addEventListener(`input`, onSetNumPlaces);
   };
 
   window.validation = {
