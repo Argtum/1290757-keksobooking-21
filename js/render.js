@@ -29,7 +29,7 @@
   const renderData = () => {
     window.data.getData((data) => {
       window.data.adsData = data;
-      renderMapPins(window.data.adsData);
+      renderMapPins(window.filter.numberFilter());
       renderCard(window.data.adsData[0]);
       window.card.onMapClick();
     });
