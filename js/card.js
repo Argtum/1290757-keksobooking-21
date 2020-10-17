@@ -1,6 +1,8 @@
 'use strict';
 
 (function () {
+  const map = document.querySelector(`.map`);
+
   const createCard = (data, template) => {
     const cardItem = template.cloneNode(true);
 
@@ -48,24 +50,22 @@
     return cardItem;
   };
 
+  const closeCard = () => {
+    const card = map.querySelector(`.map__card`);
+
+    if (card) {
+      map.removeChild(card);
+    }
+  };
+
+  const openCard = (evt) => {
+    const dataIndex = evt.target.dataset.index ? evt.target.dataset.index : evt.target.parentNode.dataset.index;
+
+    closeCard();
+    window.render.renderCard(window.data.adsData[dataIndex]);
+  };
+
   const onMapClick = () => {
-    const map = document.querySelector(`.map`);
-
-    const closeCard = () => {
-      const card = map.querySelector(`.map__card`);
-
-      if (card) {
-        map.removeChild(card);
-      }
-    };
-
-    const openCard = (evt) => {
-      const dataIndex = evt.target.dataset.index ? evt.target.dataset.index : evt.target.parentNode.dataset.index;
-
-      closeCard();
-      window.render.renderCard(window.data.adsData[dataIndex]);
-    };
-
     const onCardOpen = (evt) => {
       if (evt.target.closest(`.map__pin`) && !evt.target.closest(`.map__pin--main`)) {
         if (evt.type === `keydown`) {
@@ -97,6 +97,7 @@
 
   window.card = {
     createCard,
-    onMapClick
+    onMapClick,
+    closeCard
   };
 })();
