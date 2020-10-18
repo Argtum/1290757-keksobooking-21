@@ -1,9 +1,18 @@
 'use strict';
 
 (function () {
+  const mapPinTemplate = document.querySelector(`#pin`).content.querySelector(`.map__pin`);
+  const mapPinsContainer = document.querySelector(`.map__pins`);
+
+  const removePins = () => {
+    const currentPins = mapPinsContainer.querySelectorAll(`.map__pin:not(.map__pin--main)`);
+
+    for (let i = 0; i < currentPins.length; i++) {
+      mapPinsContainer.removeChild(currentPins[i]);
+    }
+  };
+
   const renderMapPins = (data) => {
-    const mapPinTemplate = document.querySelector(`#pin`).content.querySelector(`.map__pin`);
-    const mapPinsContainer = document.querySelector(`.map__pins`);
     const fragment = document.createDocumentFragment();
 
     data.forEach((pinData, index) => {
@@ -12,6 +21,7 @@
       fragment.appendChild(mapPin);
     });
 
+    removePins();
     mapPinsContainer.appendChild(fragment);
   };
 
@@ -29,14 +39,16 @@
   const renderData = () => {
     window.data.getData((data) => {
       window.data.adsData = data;
-      renderMapPins(window.data.adsData);
+      renderMapPins(window.filter.limitQuantity());
       renderCard(window.data.adsData[0]);
       window.card.onMapClick();
+      window.filter.onFilterChange();
     });
   };
 
   window.render = {
     renderData,
-    renderCard
+    renderCard,
+    renderMapPins
   };
 })();
