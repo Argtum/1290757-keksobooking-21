@@ -1,6 +1,8 @@
 'use strict';
 
 (function () {
+  let isActive = false;
+
   const deactivation = () => {
     const addForm = document.querySelector(`.ad-form`);
     const filter = document.querySelector(`.map__filters`);
@@ -16,6 +18,8 @@
       const map = document.querySelector(`.map`);
       const addForm = document.querySelector(`.ad-form`);
       const filter = map.querySelector(`.map__filters`);
+
+      isActive = true;
 
       map.classList.remove(`map--faded`);
       addForm.classList.remove(`ad-form--disabled`);
@@ -34,8 +38,19 @@
       window.util.isLeftMouseButtonEvent(evt, activation);
     };
 
-    mapPinMain.addEventListener(`mousedown`, onMapActivation);
-    mapPinMain.addEventListener(`keydown`, onMapActivation);
+    mapPinMain.addEventListener(`mousedown`, (evt) => {
+      if (!isActive) {
+        onMapActivation(evt);
+      }
+      window.pin.onMoveMainMapPin(evt);
+    });
+
+    mapPinMain.addEventListener(`keydown`, (evt) => {
+      if (!isActive) {
+        onMapActivation(evt);
+      }
+      onMapActivation(evt);
+    });
   };
 
   window.state = {
