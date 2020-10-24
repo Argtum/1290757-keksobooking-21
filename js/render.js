@@ -49,6 +49,7 @@
   window.render = {
     renderData,
     renderCard,
-    renderMapPins
+    renderMapPins,
+    removePins
   };
 })();

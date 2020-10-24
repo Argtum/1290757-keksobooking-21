@@ -1,6 +1,14 @@
 'use strict';
 
 (function () {
+  const addForm = document.querySelector(`.ad-form`);
+  const filter = document.querySelector(`.map__filters`);
+
+  const toggleForms = () => {
+    window.form.toggleForm(addForm);
+    window.form.toggleForm(filter);
+  };
+
   const toggleForm = (form) => {
     const formDisabled = form.cloneNode(true);
 
@@ -16,8 +24,25 @@
     document.querySelector(`#address`).value = window.pin.getMapPinCoordinate();
   };
 
+  const send = () => {
+    const success = () => {
+      window.state.deactivation();
+    };
+
+    const onSendData = () => {
+      window.upload.upload(new FormData(addForm), success);
+    };
+
+    addForm.addEventListener(`submit`, (evt) => {
+      evt.preventDefault();
+      onSendData();
+    });
+  };
+
   window.form = {
     toggleForm,
-    setAddress
+    setAddress,
+    toggleForms,
+    send
   };
 })();

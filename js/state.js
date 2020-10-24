@@ -1,31 +1,32 @@
 'use strict';
 
 (function () {
+  const map = document.querySelector(`.map`);
+  const addForm = document.querySelector(`.ad-form`);
+
   let isActive = false;
 
   const deactivation = () => {
-    const addForm = document.querySelector(`.ad-form`);
-    const filter = document.querySelector(`.map__filters`);
+    isActive = false;
 
-    window.form.toggleForm(addForm);
-    window.form.toggleForm(filter);
+    map.classList.add(`map--faded`);
+    addForm.classList.add(`ad-form--disabled`);
+
+    window.form.toggleForms();
+    window.render.removePins();
+    window.card.closeCard();
   };
 
   const init = () => {
     const mapPinMain = document.querySelector(`.map__pin--main`);
 
     const activation = () => {
-      const map = document.querySelector(`.map`);
-      const addForm = document.querySelector(`.ad-form`);
-      const filter = map.querySelector(`.map__filters`);
-
       isActive = true;
 
       map.classList.remove(`map--faded`);
       addForm.classList.remove(`ad-form--disabled`);
 
-      window.form.toggleForm(addForm);
-      window.form.toggleForm(filter);
+      window.form.toggleForms();
       window.form.setAddress();
       window.validation.validation();
       window.render.renderData();
