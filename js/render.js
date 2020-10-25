@@ -56,11 +56,22 @@
     main.appendChild(fragment);
   };
 
+  const renderErrorMessage = () => {
+    const main = document.querySelector(`main`);
+    const errorMessageTemplate = document.querySelector(`#error`).content.querySelector(`.error`);
+    const errorMessage = errorMessageTemplate.cloneNode(true);
+    const fragment = document.createDocumentFragment();
+
+    fragment.appendChild(errorMessage);
+    main.appendChild(fragment);
+  };
+
   window.render = {
     renderData,
     renderCard,
     renderMapPins,
     removePins,
     renderSuccessMessage,
+    renderErrorMessage,
   };
 })();

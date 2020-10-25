@@ -25,6 +25,31 @@
   };
 
   const send = () => {
+    const error = () => {
+      window.render.renderErrorMessage();
+
+      const removeErrorMessage = () => {
+        const main = document.querySelector(`main`);
+        const errorMessage = main.querySelector(`.error`);
+
+        main.removeChild(errorMessage);
+
+        document.removeEventListener(`mousedown`, onCardClose);
+        document.removeEventListener(`keydown`, onCardClose);
+      };
+
+      const onCardClose = (evt) => {
+        if (evt.type === `keydown`) {
+          window.util.isEscapeEvent(evt, removeErrorMessage);
+        } else if (evt.type === `mousedown`) {
+          window.util.isLeftMouseButtonEvent(evt, removeErrorMessage);
+        }
+      };
+
+      document.addEventListener(`mousedown`, onCardClose);
+      document.addEventListener(`keydown`, onCardClose);
+    };
+
     const success = () => {
       window.state.deactivation();
       window.render.renderSuccessMessage();
@@ -52,7 +77,7 @@
     };
 
     const onSendData = () => {
-      window.upload.upload(new FormData(addForm), success);
+      window.upload.upload(new FormData(addForm), success, error);
     };
 
     addForm.addEventListener(`submit`, (evt) => {
