@@ -65,7 +65,7 @@
     window.render.renderCard(window.data.adsData[dataIndex]);
   };
 
-  const onMapClick = () => {
+  const mapClick = () => {
     const onCardOpen = (evt) => {
       if (evt.target.closest(`.map__pin`) && !evt.target.closest(`.map__pin--main`)) {
         if (evt.type === `keydown`) {
@@ -97,7 +97,7 @@
 
   window.card = {
     createCard,
-    onMapClick,
+    mapClick,
     closeCard
   };
 })();

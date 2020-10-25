@@ -1,6 +1,8 @@
 'use strict';
 
 (function () {
+  const DEFAULT_PRICE_LIMIT = 1000;
+
   const addForm = document.querySelector(`.ad-form`);
   const filter = document.querySelector(`.map__filters`);
 
@@ -22,6 +24,13 @@
 
   const setAddress = () => {
     document.querySelector(`#address`).value = window.pin.getMapPinCoordinate();
+  };
+
+  const setPriceRange = (value = DEFAULT_PRICE_LIMIT) => {
+    const priceField = document.querySelector(`#price`);
+
+    priceField.placeholder = value;
+    priceField.min = value;
   };
 
   const send = () => {
@@ -86,10 +95,30 @@
     });
   };
 
+  const clear = () => {
+    const resetButton = addForm.querySelector(`.ad-form__reset`);
+
+    const reset = () => {
+      window.state.deactivation();
+
+      resetButton.removeEventListener(`click`, onReset);
+    };
+
+    const onReset = (evt) => {
+      evt.preventDefault();
+
+      window.util.isLeftMouseButtonEvent(evt, reset);
+    };
+
+    resetButton.addEventListener(`click`, onReset);
+  };
+
   window.form = {
     toggleForm,
     setAddress,
     toggleForms,
-    send
+    send,
+    clear,
+    setPriceRange
   };
 })();

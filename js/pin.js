@@ -7,6 +7,8 @@
   const MIN_Y_COORDINATE = 130;
   const MIN_X_COORDINATE = 0;
   const BASE = 10;
+  const MAIN_PIN_Y_DEFAULT = 375;
+  const MAIN_PIN_GAP = 30;
 
   const map = document.querySelector(`.map`);
   const mapPinMain = map.querySelector(`.map__pin--main`);
@@ -26,6 +28,11 @@
     mapPinImg.alt = data.offer.title;
 
     return mapPinItem;
+  };
+
+  const resetPinPosition = () => {
+    mapPinMain.style.left = `${String(Math.floor(map.clientWidth / 2) - MAIN_PIN_GAP)}px`;
+    mapPinMain.style.top = `${String(MAIN_PIN_Y_DEFAULT)}px`;
   };
 
   const setMapPinCoordinate = () => {
@@ -96,6 +103,7 @@
   window.pin = {
     createMapPin,
     getMapPinCoordinate,
-    onMoveMainMapPin
+    onMoveMainMapPin,
+    resetPinPosition
   };
 })();

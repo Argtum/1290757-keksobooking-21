@@ -15,6 +15,9 @@
     window.form.toggleForms();
     window.render.removePins();
     window.card.closeCard();
+    window.form.setPriceRange();
+    window.pin.resetPinPosition();
+    window.form.setAddress();
   };
 
   const init = () => {

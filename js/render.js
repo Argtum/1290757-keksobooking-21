@@ -41,8 +41,10 @@
       window.data.adsData = data;
       renderMapPins(window.filter.limitQuantity());
       renderCard(window.data.adsData[0]);
-      window.card.onMapClick();
-      window.filter.onFilterChange();
+      window.card.mapClick();
+      window.filter.changeFilter();
+      window.form.send();
+      window.form.clear();
     });
   };
 

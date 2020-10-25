@@ -3,9 +3,6 @@
 (function () {
   const URL = `https://21.javascript.pages.academy/keksobooking`;
   const TIMEOUT_IN_MS = 10000;
-  const StatusCode = {
-    OK: 200
-  };
 
   const upload = function (data, onSuccess, onError) {
     const xhr = new XMLHttpRequest();
@@ -20,23 +17,19 @@
     };
 
     const xhrLoad = () => {
-      if (xhr.status === StatusCode.OK) {
-        onSuccess(xhr.response);
-      } else {
-        onError(`Статус ответа: ${xhr.status} ${xhr.statusText}`);
-      }
+      onSuccess(xhr.response);
 
       removeXhrListener();
     };
 
     const xhrTimeout = () => {
-      onError(`Запрос не успел выполниться за ${xhr.timeout} мс`);
+      onError();
 
       removeXhrListener();
     };
 
     const xhrError = () => {
-      onError(`Произошла ошибка соединения`);
+      onError();
 
       removeXhrListener();
     };

@@ -7,7 +7,7 @@
     return window.data.adsData.slice(0, QUANTITY);
   };
 
-  const onFilterChange = () => {
+  const changeFilter = () => {
     const form = document.querySelector(`.map__filters`);
 
     const setFilter = () => {
@@ -38,6 +38,6 @@
 
   window.filter = {
     limitQuantity,
-    onFilterChange
+    changeFilter
   };
 })();
