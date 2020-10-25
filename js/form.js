@@ -27,6 +27,28 @@
   const send = () => {
     const success = () => {
       window.state.deactivation();
+      window.render.renderSuccessMessage();
+
+      const removeSuccessMessage = () => {
+        const main = document.querySelector(`main`);
+        const successMessage = main.querySelector(`.success`);
+
+        main.removeChild(successMessage);
+
+        document.removeEventListener(`mousedown`, onCardClose);
+        document.removeEventListener(`keydown`, onCardClose);
+      };
+
+      const onCardClose = (evt) => {
+        if (evt.type === `keydown`) {
+          window.util.isEscapeEvent(evt, removeSuccessMessage);
+        } else if (evt.type === `mousedown`) {
+          window.util.isLeftMouseButtonEvent(evt, removeSuccessMessage);
+        }
+      };
+
+      document.addEventListener(`mousedown`, onCardClose);
+      document.addEventListener(`keydown`, onCardClose);
     };
 
     const onSendData = () => {

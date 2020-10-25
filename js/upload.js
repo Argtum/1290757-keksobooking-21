@@ -7,9 +7,17 @@
     const xhr = new XMLHttpRequest();
     xhr.responseType = `json`;
 
-    xhr.addEventListener(`load`, function () {
+    const xhrLoad = () => {
       onSuccess(xhr.response);
-    });
+
+      xhr.removeEventListener(`load`, onXhrLoad);
+    };
+
+    const onXhrLoad = () => {
+      xhrLoad();
+    };
+
+    xhr.addEventListener(`load`, onXhrLoad);
 
     xhr.open(`POST`, URL);
     xhr.send(data);

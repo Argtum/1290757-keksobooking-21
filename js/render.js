@@ -46,10 +46,21 @@
     });
   };
 
+  const renderSuccessMessage = () => {
+    const main = document.querySelector(`main`);
+    const successMessageTemplate = document.querySelector(`#success`).content.querySelector(`.success`);
+    const successMessage = successMessageTemplate.cloneNode(true);
+    const fragment = document.createDocumentFragment();
+
+    fragment.appendChild(successMessage);
+    main.appendChild(fragment);
+  };
+
   window.render = {
     renderData,
     renderCard,
     renderMapPins,
-    removePins
+    removePins,
+    renderSuccessMessage,
   };
 })();
