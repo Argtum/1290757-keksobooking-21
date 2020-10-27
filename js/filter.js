@@ -2,6 +2,7 @@
 
 (function () {
   const QUANTITY = 5;
+  const DEBOUNCE_INTERVAL = 500;
 
   const limitQuantity = () => {
     return window.data.adsData.slice(0, QUANTITY);
@@ -9,6 +10,7 @@
 
   const changeFilter = () => {
     const form = document.querySelector(`.map__filters`);
+    let lastTimeout;
 
     const setFilter = () => {
       const housingType = form.querySelector(`#housing-type`);
@@ -93,7 +95,12 @@
     };
 
     form.addEventListener(`change`, () => {
-      setFilter();
+      if (lastTimeout) {
+        window.clearTimeout(lastTimeout);
+      }
+      lastTimeout = window.setTimeout(function () {
+        setFilter();
+      }, DEBOUNCE_INTERVAL);
     });
   };
 
