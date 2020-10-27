@@ -91,6 +91,9 @@
 
     map.addEventListener(`keydown`, (evt) => {
       onCardOpen(evt);
+    });
+
+    document.addEventListener(`keydown`, (evt) => {
       onCardClose(evt);
     });
   };
