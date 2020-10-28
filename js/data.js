@@ -62,8 +62,17 @@
     })[0][key][value];
   };
 
-  const getData = (onSuccess, onError) => {
-    window.load.load(DATA_URL, onSuccess, onError);
+  const getData = (onSuccess) => {
+    const error = (msg) => {
+      const main = document.querySelector(`main`);
+      const paragraph = document.createElement(`p`);
+
+      paragraph.innerHTML = msg;
+
+      main.appendChild(paragraph);
+    };
+
+    window.load.load(DATA_URL, onSuccess, error);
   };
 
   const getRandomData = () => {

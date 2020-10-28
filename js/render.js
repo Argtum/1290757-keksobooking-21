@@ -16,9 +16,11 @@
     const fragment = document.createDocumentFragment();
 
     data.forEach((pinData, index) => {
-      const mapPin = window.pin.createMapPin(pinData, mapPinTemplate, index);
+      if (pinData.offer) {
+        const mapPin = window.pin.createMapPin(pinData, mapPinTemplate, index);
 
-      fragment.appendChild(mapPin);
+        fragment.appendChild(mapPin);
+      }
     });
 
     removePins();
@@ -40,7 +42,6 @@
     window.data.getData((data) => {
       window.data.adsData = data;
       renderMapPins(window.filter.limitQuantity());
-      renderCard(window.data.adsData[0]);
       window.card.mapClick();
       window.filter.changeFilter();
       window.form.send();

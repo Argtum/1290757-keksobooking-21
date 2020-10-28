@@ -39,6 +39,7 @@
   const send = () => {
     const error = () => {
       window.render.renderErrorMessage();
+      const errorButton = document.querySelector(`.error__button`);
 
       const removeErrorMessage = () => {
         const main = document.querySelector(`main`);
@@ -52,13 +53,18 @@
 
       const onCardClose = (evt) => {
         if (evt.type === `keydown`) {
-          window.util.isEscapeEvent(evt, removeErrorMessage);
+          if (evt.target.classList.contains(`error__button`)) {
+            window.util.isEnterEvent(evt, removeErrorMessage);
+          } else {
+            window.util.isEscapeEvent(evt, removeErrorMessage);
+          }
         } else if (evt.type === `mousedown`) {
           window.util.isLeftMouseButtonEvent(evt, removeErrorMessage);
         }
       };
 
       document.addEventListener(`mousedown`, onCardClose);
+      errorButton.addEventListener(`mousedown`, onCardClose);
       document.addEventListener(`keydown`, onCardClose);
     };
 
