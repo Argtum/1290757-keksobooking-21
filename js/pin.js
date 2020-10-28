@@ -92,11 +92,11 @@
     const onMouseUp = (upEvt) => {
       upEvt.preventDefault();
 
-      mapPinMain.removeEventListener(`mousemove`, onMouseMove);
+      document.removeEventListener(`mousemove`, onMouseMove);
       document.removeEventListener(`mouseup`, onMouseUp);
     };
 
-    mapPinMain.addEventListener(`mousemove`, onMouseMove);
+    document.addEventListener(`mousemove`, onMouseMove);
     document.addEventListener(`mouseup`, onMouseUp);
   };
 

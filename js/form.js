@@ -2,6 +2,9 @@
 
 (function () {
   const DEFAULT_PRICE_LIMIT = 1000;
+  const FILE_TYPES = [`gif`, `jpg`, `jpeg`, `png`];
+  const PICTURE_WIDTH = 70;
+  const PICTURE_HEIGHT = 70;
 
   const addForm = document.querySelector(`.ad-form`);
   const filter = document.querySelector(`.map__filters`);
@@ -113,12 +116,62 @@
     resetButton.addEventListener(`click`, onReset);
   };
 
+  const loadPicture = (input, preview) => {
+    const file = input.files[0];
+    const fileName = file.name.toLowerCase();
+
+    const matches = FILE_TYPES.some((it) => {
+      return fileName.endsWith(it);
+    });
+
+    if (matches) {
+      const reader = new FileReader();
+
+      reader.addEventListener(`load`, () => {
+        if (preview.tagName === `IMG`) {
+          preview.src = reader.result;
+        } else {
+          const image = document.createElement(`img`);
+
+          image.src = reader.result;
+          image.alt = fileName;
+          image.width = PICTURE_WIDTH;
+          image.height = PICTURE_HEIGHT;
+
+          preview.appendChild(image);
+        }
+      });
+
+      reader.readAsDataURL(file);
+    }
+  };
+
+  const setAvatar = () => {
+    const avatarInput = addForm.querySelector(`.ad-form-header__input`);
+    const avatarPreview = addForm.querySelector(`.ad-form-header__preview img`);
+
+    avatarInput.addEventListener(`change`, () => {
+      loadPicture(avatarInput, avatarPreview);
+    });
+  };
+
+  const setPhoto = () => {
+    const photoInput = addForm.querySelector(`.ad-form__input`);
+    const photoPreview = addForm.querySelector(`.ad-form__photo`);
+
+    photoInput.addEventListener(`change`, () => {
+      loadPicture(photoInput, photoPreview);
+    });
+  };
+
   window.form = {
     toggleForm,
     setAddress,
     toggleForms,
     send,
     clear,
-    setPriceRange
+    setPriceRange,
+    setAvatar,
+    setPhoto
   };
 })();

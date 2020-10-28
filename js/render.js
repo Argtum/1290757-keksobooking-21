@@ -45,6 +45,8 @@
       window.filter.changeFilter();
       window.form.send();
       window.form.clear();
+      window.form.setAvatar();
+      window.form.setPhoto();
     });
   };
 
