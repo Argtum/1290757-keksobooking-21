@@ -7,12 +7,12 @@
     OK: 200
   };
 
-  const xhr = new XMLHttpRequest();
-
-  xhr.timeout = TIMEOUT_IN_MS;
-  xhr.responseType = `json`;
-
   const upload = function (data, onSuccess, onError) {
+    const xhr = new XMLHttpRequest();
+
+    xhr.timeout = TIMEOUT_IN_MS;
+    xhr.responseType = `json`;
+
     const removeXhrListener = () => {
       xhr.removeEventListener(`load`, onXhrLoad);
       xhr.removeEventListener(`error`, onXhrError);
@@ -58,6 +58,11 @@
   };
 
   const load = (url, onSuccess, onError) => {
+    const xhr = new XMLHttpRequest();
+
+    xhr.timeout = TIMEOUT_IN_MS;
+    xhr.responseType = `json`;
+
     const removeXhrListener = () => {
       xhr.removeEventListener(`load`, onXhrLoad);
       xhr.removeEventListener(`error`, onXhrError);

@@ -3,6 +3,9 @@
 (function () {
   const QUANTITY = 5;
   const DEBOUNCE_INTERVAL = 500;
+  const BASE = 10;
+  const PRICE_LOWER_LIMIT = 10000;
+  const PRICE_UPPER_LIMIT = 50000;
 
   const limitQuantity = () => {
     return window.data.adsData.slice(0, QUANTITY);
@@ -25,65 +28,28 @@
       const filterConditioner = form.querySelector(`#filter-conditioner`);
 
       const checkPrice = (price) => {
-        if (housingPrice.value === `middle` && (price < 10000 || price > 50000)) {
+        if (housingPrice.value === `middle` && (price < PRICE_LOWER_LIMIT || price > PRICE_UPPER_LIMIT)) {
           return false;
         }
 
-        if (housingPrice.value === `low` && (price >= 10000)) {
+        if (housingPrice.value === `low` && (price >= PRICE_LOWER_LIMIT)) {
           return false;
         }
 
-        if (housingPrice.value === `high` && (price <= 50000)) {
-          return false;
-        }
-
-        return true;
+        return !(housingPrice.value === `high` && (price <= PRICE_UPPER_LIMIT));
       };
 
       const getSimilarRank = (item) => {
-        let rank = 0;
-
-        if (housingType.value === `any` || housingType.value === item.offer.type) {
-          rank++;
-        }
-
-        if (housingPrice.value === `any` || checkPrice(item.offer.price)) {
-          rank++;
-        }
-
-        if (housingRoom.value === `any` || parseInt(housingRoom.value, 10) === item.offer.rooms) {
-          rank++;
-        }
-
-        if (housingGuests.value === `any` || parseInt(housingGuests.value, 10) === item.offer.guests) {
-          rank++;
-        }
-
-        if (filterWifi.checked && item.offer.features.includes(filterWifi.value)) {
-          rank++;
-        }
-
-        if (filterDishwasher.checked && item.offer.features.includes(filterDishwasher.value)) {
-          rank++;
-        }
-
-        if (filterParking.checked && item.offer.features.includes(filterParking.value)) {
-          rank++;
-        }
-
-        if (filterWasher.checked && item.offer.features.includes(filterWasher.value)) {
-          rank++;
-        }
-
-        if (filterElevator.checked && item.offer.features.includes(filterElevator.value)) {
-          rank++;
-        }
-
-        if (filterConditioner.checked && item.offer.features.includes(filterConditioner.value)) {
-          rank++;
-        }
-
-        return rank;
+        return Number(housingType.value === `any` || housingType.value === item.offer.type)
+          + Number(housingPrice.value === `any` || checkPrice(item.offer.price))
+          + Number(housingRoom.value === `any` || parseInt(housingRoom.value, BASE) === item.offer.rooms)
+          + Number(housingGuests.value === `any` || parseInt(housingGuests.value, BASE) === item.offer.guests)
+          + Number(filterWifi.checked && item.offer.features.includes(filterWifi.value))
+          + Number(filterDishwasher.checked && item.offer.features.includes(filterDishwasher.value))
+          + Number(filterParking.checked && item.offer.features.includes(filterParking.value))
+          + Number(filterWasher.checked && item.offer.features.includes(filterWasher.value))
+          + Number(filterElevator.checked && item.offer.features.includes(filterElevator.value))
+          + Number(filterConditioner.checked && item.offer.features.includes(filterConditioner.value));
       };
 
       window.data.adsData.sort((left, right) => {
