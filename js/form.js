@@ -153,12 +153,20 @@
     }
   };
 
+  const onLoadAvatar = (input, preview) => {
+    loadPicture(input, preview);
+  };
+
+  const onLoadPhoto = (input, preview) => {
+    loadPicture(input, preview);
+  };
+
   const setAvatar = () => {
     const avatarInput = addForm.querySelector(`.ad-form-header__input`);
     const avatarPreview = addForm.querySelector(`.ad-form-header__preview img`);
 
     avatarInput.addEventListener(`change`, () => {
-      loadPicture(avatarInput, avatarPreview);
+      onLoadAvatar(avatarInput, avatarPreview);
     });
   };
 
@@ -167,7 +175,7 @@
     const photoPreview = addForm.querySelector(`.ad-form__photo`);
 
     photoInput.addEventListener(`change`, () => {
-      loadPicture(photoInput, photoPreview);
+      onLoadPhoto(photoInput, photoPreview);
     });
   };
 

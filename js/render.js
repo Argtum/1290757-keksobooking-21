@@ -42,12 +42,6 @@
     window.data.getData((data) => {
       window.data.adsData = data;
       renderMapPins(window.filter.limitQuantity());
-      window.card.mapClick();
-      window.filter.changeFilter();
-      window.form.send();
-      window.form.clear();
-      window.form.setAvatar();
-      window.form.setPhoto();
     });
   };
 

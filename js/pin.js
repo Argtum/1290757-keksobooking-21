@@ -45,6 +45,12 @@
       window.form.setAddress();
       window.validation.validation();
       window.render.renderData();
+      window.card.mapClick();
+      window.filter.changeFilter();
+      window.form.send();
+      window.form.clear();
+      window.form.setAvatar();
+      window.form.setPhoto();
 
       mapPinMain.removeEventListener(`mousedown`, onMapActivation);
       mapPinMain.removeEventListener(`keydown`, onMapActivation);
