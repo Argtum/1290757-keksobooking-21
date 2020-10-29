@@ -72,7 +72,7 @@
       main.appendChild(paragraph);
     };
 
-    window.load.load(DATA_URL, onSuccess, error);
+    window.network.load(DATA_URL, onSuccess, error);
   };
 
   const getRandomData = () => {

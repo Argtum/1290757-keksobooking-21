@@ -95,7 +95,7 @@
     };
 
     const onSendData = () => {
-      window.upload.upload(new FormData(addForm), success, error);
+      window.network.upload(new FormData(addForm), success, error);
     };
 
     addForm.addEventListener(`submit`, (evt) => {
