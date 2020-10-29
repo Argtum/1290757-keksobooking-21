@@ -10,12 +10,64 @@
   const MAIN_PIN_Y_DEFAULT = 375;
   const MAIN_PIN_GAP = 30;
 
-  const map = document.querySelector(`.map`);
-  const mapPinMain = map.querySelector(`.map__pin--main`);
-  const maxXCoordinate = map.clientWidth;
+  const mapPinMain = document.querySelector(`.map__pin--main`);
+  const maxXCoordinate = window.card.getMapWidth();
 
   let coordinateX;
   let coordinateY;
+  let isActive = false;
+
+  const resetPinPosition = () => {
+    mapPinMain.style.left = `${String(Math.floor(maxXCoordinate / 2) - MAIN_PIN_GAP)}px`;
+    mapPinMain.style.top = `${String(MAIN_PIN_Y_DEFAULT)}px`;
+  };
+
+  const deactivation = () => {
+    isActive = false;
+
+    window.card.switchMap();
+    window.form.switchAddForm();
+    window.form.toggleForms();
+    window.render.removePins();
+    window.card.closeCard();
+    window.form.setPriceRange();
+    resetPinPosition();
+    window.form.setAddress();
+  };
+
+  const init = () => {
+    const activation = () => {
+      isActive = true;
+
+      window.card.switchMap();
+      window.form.switchAddForm();
+      window.form.toggleForms();
+      window.form.setAddress();
+      window.validation.validation();
+      window.render.renderData();
+
+      mapPinMain.removeEventListener(`mousedown`, onMapActivation);
+      mapPinMain.removeEventListener(`keydown`, onMapActivation);
+    };
+
+    const onMapActivation = (evt) => {
+      window.util.isLeftMouseButtonEvent(evt, activation);
+    };
+
+    mapPinMain.addEventListener(`mousedown`, (evt) => {
+      if (!isActive) {
+        onMapActivation(evt);
+      }
+      window.pin.onMoveMainMapPin(evt);
+    });
+
+    mapPinMain.addEventListener(`keydown`, (evt) => {
+      if (!isActive) {
+        onMapActivation(evt);
+      }
+      onMapActivation(evt);
+    });
+  };
 
   const createMapPin = (data, template, index) => {
     const mapPinItem = template.cloneNode(true);
@@ -30,11 +82,6 @@
     return mapPinItem;
   };
 
-  const resetPinPosition = () => {
-    mapPinMain.style.left = `${String(Math.floor(map.clientWidth / 2) - MAIN_PIN_GAP)}px`;
-    mapPinMain.style.top = `${String(MAIN_PIN_Y_DEFAULT)}px`;
-  };
-
   const setMapPinCoordinate = () => {
     const pinOffsetX = mapPinMain.offsetLeft;
     const pinOffsetY = mapPinMain.offsetTop;
@@ -43,9 +90,9 @@
     const activePinHeight = parseInt(getComputedStyle(mapPinMain, `:after`).height, BASE);
 
     coordinateX = Math.floor(pinOffsetX + (pinWidth / 2));
-    coordinateY = map.classList.contains(`map--faded`)
-      ? Math.floor(pinOffsetY + (pinHeight / 2))
-      : Math.floor(pinOffsetY + pinHeight + activePinHeight);
+    coordinateY = window.card.isMapActive()
+      ? Math.floor(pinOffsetY + pinHeight + activePinHeight)
+      : Math.floor(pinOffsetY + (pinHeight / 2));
   };
 
   const getMapPinCoordinate = () => {
@@ -101,6 +148,8 @@
   };
 
   window.pin = {
+    deactivation,
+    init,
     createMapPin,
     getMapPinCoordinate,
     onMoveMainMapPin,

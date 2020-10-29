@@ -62,7 +62,7 @@
     const dataIndex = evt.target.dataset.index ? evt.target.dataset.index : evt.target.parentNode.dataset.index;
 
     closeCard();
-    window.render.renderCard(window.data.adsData[dataIndex]);
+    window.render.renderCard(window.data.adsData[dataIndex], map);
   };
 
   const mapClick = () => {
@@ -98,9 +98,24 @@
     });
   };
 
+  const getMapWidth = () => {
+    return map.clientWidth;
+  };
+
+  const switchMap = () => {
+    map.classList.toggle(`map--faded`);
+  };
+
+  const isMapActive = () => {
+    return !map.classList.contains(`map--faded`);
+  };
+
   window.card = {
     createCard,
     mapClick,
-    closeCard
+    closeCard,
+    getMapWidth,
+    switchMap,
+    isMapActive
   };
 })();

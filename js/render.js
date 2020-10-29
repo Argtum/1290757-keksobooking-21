@@ -3,6 +3,7 @@
 (function () {
   const mapPinTemplate = document.querySelector(`#pin`).content.querySelector(`.map__pin`);
   const mapPinsContainer = document.querySelector(`.map__pins`);
+  const main = document.querySelector(`main`);
 
   const removePins = () => {
     const currentPins = mapPinsContainer.querySelectorAll(`.map__pin:not(.map__pin--main)`);
@@ -27,15 +28,14 @@
     mapPinsContainer.appendChild(fragment);
   };
 
-  const renderCard = (data) => {
+  const renderCard = (data, map) => {
     const cardTemplate = document.querySelector(`#card`).content.querySelector(`.map__card`);
-    const cardContainer = document.querySelector(`.map`);
     const cardPositionMarker = document.querySelector(`.map__filters-container`);
     const fragment = document.createDocumentFragment();
     const card = window.card.createCard(data, cardTemplate);
 
     fragment.appendChild(card);
-    cardContainer.insertBefore(fragment, cardPositionMarker);
+    map.insertBefore(fragment, cardPositionMarker);
   };
 
   const renderData = () => {
@@ -52,7 +52,6 @@
   };
 
   const renderSuccessMessage = () => {
-    const main = document.querySelector(`main`);
     const successMessageTemplate = document.querySelector(`#success`).content.querySelector(`.success`);
     const successMessage = successMessageTemplate.cloneNode(true);
     const fragment = document.createDocumentFragment();
@@ -62,13 +61,24 @@
   };
 
   const renderErrorMessage = () => {
-    const main = document.querySelector(`main`);
     const errorMessageTemplate = document.querySelector(`#error`).content.querySelector(`.error`);
     const errorMessage = errorMessageTemplate.cloneNode(true);
     const fragment = document.createDocumentFragment();
 
     fragment.appendChild(errorMessage);
     main.appendChild(fragment);
+  };
+
+  const renderLoadErrorMessage = (msg) => {
+    const paragraph = document.createElement(`p`);
+
+    paragraph.innerHTML = msg;
+
+    main.appendChild(paragraph);
+  };
+
+  const removeMessage = (msg) => {
+    main.removeChild(msg);
   };
 
   window.render = {
@@ -78,5 +88,7 @@
     removePins,
     renderSuccessMessage,
     renderErrorMessage,
+    removeMessage,
+    renderLoadErrorMessage
   };
 })();

@@ -7,12 +7,17 @@
   const PRICE_LOWER_LIMIT = 10000;
   const PRICE_UPPER_LIMIT = 50000;
 
+  const form = document.querySelector(`.map__filters`);
+
   const limitQuantity = () => {
     return window.data.adsData.slice(0, QUANTITY);
   };
 
+  const getFilterElement = () => {
+    return form;
+  };
+
   const changeFilter = () => {
-    const form = document.querySelector(`.map__filters`);
     let lastTimeout;
 
     const setFilter = () => {
@@ -71,6 +76,7 @@
   };
 
   window.filter = {
+    getFilterElement,
     limitQuantity,
     changeFilter
   };

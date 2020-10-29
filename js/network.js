@@ -1,7 +1,8 @@
 'use strict';
 
 (function () {
-  const URL = `https://21.javascript.pages.academy/keksobooking`;
+  const URL_LOAD = `https://21.javascript.pages.academy/keksobooking/data`;
+  const URL_UPLOAD = `https://21.javascript.pages.academy/keksobooking`;
   const TIMEOUT_IN_MS = 10000;
   const StatusCode = {
     OK: 200
@@ -53,11 +54,11 @@
     xhr.addEventListener(`error`, onXhrError);
     xhr.addEventListener(`timeout`, onXhrTimeout);
 
-    xhr.open(`POST`, URL);
+    xhr.open(`POST`, URL_UPLOAD);
     xhr.send(data);
   };
 
-  const load = (url, onSuccess, onError) => {
+  const load = (onSuccess, onError) => {
     const xhr = new XMLHttpRequest();
 
     xhr.timeout = TIMEOUT_IN_MS;
@@ -107,7 +108,7 @@
     xhr.addEventListener(`error`, onXhrError);
     xhr.addEventListener(`timeout`, onXhrTimeout);
 
-    xhr.open(`GET`, url);
+    xhr.open(`GET`, URL_LOAD);
     xhr.send();
   };
 

@@ -7,11 +7,14 @@
   const PICTURE_HEIGHT = 70;
 
   const addForm = document.querySelector(`.ad-form`);
-  const filter = document.querySelector(`.map__filters`);
+
+  const switchAddForm = () => {
+    addForm.classList.toggle(`ad-form--disabled`);
+  };
 
   const toggleForms = () => {
     window.form.toggleForm(addForm);
-    window.form.toggleForm(filter);
+    window.form.toggleForm(window.filter.getFilterElement());
   };
 
   const toggleForm = (form) => {
@@ -42,10 +45,9 @@
       const errorButton = document.querySelector(`.error__button`);
 
       const removeErrorMessage = () => {
-        const main = document.querySelector(`main`);
-        const errorMessage = main.querySelector(`.error`);
+        const errorMessage = document.querySelector(`.error`);
 
-        main.removeChild(errorMessage);
+        window.render.removeMessage(errorMessage);
 
         document.removeEventListener(`mousedown`, onCardClose);
         document.removeEventListener(`keydown`, onCardClose);
@@ -69,14 +71,13 @@
     };
 
     const success = () => {
-      window.state.deactivation();
+      window.pin.deactivation();
       window.render.renderSuccessMessage();
 
       const removeSuccessMessage = () => {
-        const main = document.querySelector(`main`);
-        const successMessage = main.querySelector(`.success`);
+        const successMessage = document.querySelector(`.success`);
 
-        main.removeChild(successMessage);
+        window.render.removeMessage(successMessage);
 
         document.removeEventListener(`mousedown`, onCardClose);
         document.removeEventListener(`keydown`, onCardClose);
@@ -108,7 +109,7 @@
     const resetButton = addForm.querySelector(`.ad-form__reset`);
 
     const reset = () => {
-      window.state.deactivation();
+      window.pin.deactivation();
 
       resetButton.removeEventListener(`click`, onReset);
     };
@@ -171,6 +172,7 @@
   };
 
   window.form = {
+    switchAddForm,
     toggleForm,
     setAddress,
     toggleForms,

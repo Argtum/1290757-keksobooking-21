@@ -4,14 +4,13 @@ module.exports = {
   entry: [
     "./js/data.js",
     "./js/util.js",
-    "./js/pin.js",
     "./js/card.js",
+    "./js/pin.js",
     "./js/validation.js",
     "./js/render.js",
     "./js/filter.js",
     "./js/network.js",
     "./js/form.js",
-    "./js/state.js",
     "./js/main.js",
   ],
   output: {

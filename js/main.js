@@ -1,5 +1,5 @@
 'use strict';
 
 window.form.toggleForms();
-window.state.init();
+window.pin.init();
 window.form.setAddress();
