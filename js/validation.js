@@ -8,11 +8,9 @@
     const roomNumber = document.querySelector(`#room_number`);
 
     const setPriceMinRange = (value) => {
-      const priceField = document.querySelector(`#price`);
       const priceValue = String(window.data.getTypeValue(value, `price`));
 
-      priceField.placeholder = priceValue;
-      priceField.min = priceValue;
+      window.form.setPriceRange(priceValue);
     };
 
     const setTime = (value, id) => {

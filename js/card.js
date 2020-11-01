@@ -58,14 +58,14 @@
     }
   };
 
-  const openCard = (evt) => {
-    const dataIndex = evt.target.dataset.index ? evt.target.dataset.index : evt.target.parentNode.dataset.index;
+  const mapClick = () => {
+    const openCard = (evt) => {
+      const dataIndex = evt.target.dataset.index ? evt.target.dataset.index : evt.target.parentNode.dataset.index;
 
-    closeCard();
-    window.render.renderCard(window.data.adsData[dataIndex]);
-  };
+      closeCard();
+      window.render.renderCard(window.data.adsData[dataIndex], map);
+    };
 
-  const onMapClick = () => {
     const onCardOpen = (evt) => {
       if (evt.target.closest(`.map__pin`) && !evt.target.closest(`.map__pin--main`)) {
         if (evt.type === `keydown`) {
@@ -91,13 +91,31 @@
 
     map.addEventListener(`keydown`, (evt) => {
       onCardOpen(evt);
+    });
+
+    document.addEventListener(`keydown`, (evt) => {
       onCardClose(evt);
     });
   };
 
+  const getMapWidth = () => {
+    return map.clientWidth;
+  };
+
+  const switchMap = () => {
+    map.classList.toggle(`map--faded`);
+  };
+
+  const isMapActive = () => {
+    return !map.classList.contains(`map--faded`);
+  };
+
   window.card = {
     createCard,
-    onMapClick,
-    closeCard
+    mapClick,
+    closeCard,
+    getMapWidth,
+    switchMap,
+    isMapActive
   };
 })();

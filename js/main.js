@@ -1,5 +1,5 @@
 'use strict';
 
-window.state.deactivation();
-window.state.init();
+window.form.toggleForms();
+window.pin.init();
 window.form.setAddress();
