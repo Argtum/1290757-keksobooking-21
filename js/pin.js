@@ -57,7 +57,11 @@
     };
 
     const onMapActivation = (evt) => {
-      window.util.isLeftMouseButtonEvent(evt, activation);
+      if (evt.type === `keydown`) {
+        window.util.isEnterEvent(evt, activation);
+      } else if (evt.type === `mousedown`) {
+        window.util.isLeftMouseButtonEvent(evt, activation);
+      }
     };
 
     mapPinMain.addEventListener(`mousedown`, (evt) => {
@@ -71,7 +75,6 @@
       if (!isActive) {
         onMapActivation(evt);
       }
-      onMapActivation(evt);
     });
   };
 
