@@ -16,9 +16,9 @@
   const renderMapPins = (data) => {
     const fragment = document.createDocumentFragment();
 
-    data.forEach((pinData, index) => {
+    data.forEach((pinData) => {
       if (pinData.offer) {
-        const mapPin = window.pin.createMapPin(pinData, mapPinTemplate, index);
+        const mapPin = window.pin.createMapPin(pinData, mapPinTemplate);
 
         fragment.appendChild(mapPin);
       }

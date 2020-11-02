@@ -8,7 +8,7 @@
     OK: 200
   };
 
-  const upload = function (data, onSuccess, onError) {
+  const upload = (data, onSuccess, onError) => {
     const xhr = new XMLHttpRequest();
 
     xhr.timeout = TIMEOUT_IN_MS;

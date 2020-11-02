@@ -58,12 +58,16 @@
     }
   };
 
+  const getCardData = (name) => {
+    return window.data.adsData.filter((item) => {
+      return item.offer.title === name;
+    });
+  };
+
   const mapClick = () => {
     const openCard = (evt) => {
-      const dataIndex = evt.target.dataset.index ? evt.target.dataset.index : evt.target.parentNode.dataset.index;
-
       closeCard();
-      window.render.renderCard(window.data.adsData[dataIndex], map);
+      window.render.renderCard(getCardData(evt.target.alt)[0], map);
     };
 
     const onCardOpen = (evt) => {
