@@ -14,7 +14,7 @@
     window.form.switchAddForm();
     window.form.toggleForms();
     window.render.removePins();
-    window.card.closeCard();
+    window.card.closeCard(window.map.getMap());
     window.form.setPriceRange();
     window.pin.resetPinPosition();
     window.form.setAddress();

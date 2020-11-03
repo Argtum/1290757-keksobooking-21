@@ -18,8 +18,8 @@
     });
   };
 
-  const getMapWidth = () => {
-    return map.clientWidth;
+  const getMap = () => {
+    return map;
   };
 
   const switchMap = () => {
@@ -32,7 +32,7 @@
 
   window.map = {
     mapClick,
-    getMapWidth,
+    getMap,
     switchMap,
     isMapActive
   };

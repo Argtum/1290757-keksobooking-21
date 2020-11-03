@@ -11,7 +11,7 @@
   const MAIN_PIN_GAP = 30;
 
   const mapPinMain = document.querySelector(`.map__pin--main`);
-  const maxXCoordinate = window.map.getMapWidth();
+  const maxXCoordinate = window.map.getMap().clientWidth;
 
   let coordinateX;
   let coordinateY;
