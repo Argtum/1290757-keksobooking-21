@@ -56,15 +56,16 @@
     }
   };
 
-  const getCardData = (name) => {
+  const getCardData = (target) => {
     return window.data.adsData.filter((item) => {
-      return item.offer.title === name;
+      return item.offer.title === target.alt ? target.alt : target.querySelector(`img`).alt;
     });
   };
 
   const openCard = (evt, map) => {
     closeCard(map);
-    window.render.renderCard(getCardData(evt.target.alt)[0], map);
+
+    window.render.renderCard(getCardData(evt.target)[0], map);
   };
 
   const onCardOpen = (evt, map) => {
