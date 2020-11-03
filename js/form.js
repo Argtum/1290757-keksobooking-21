@@ -7,6 +7,7 @@
   const PICTURE_HEIGHT = 70;
 
   const addForm = document.querySelector(`.ad-form`);
+  const resetButton = addForm.querySelector(`.ad-form__reset`);
 
   const switchAddForm = () => {
     addForm.classList.toggle(`ad-form--disabled`);
@@ -71,7 +72,7 @@
     };
 
     const success = () => {
-      window.pin.deactivation();
+      window.pin.deactivate();
       window.render.renderSuccessMessage();
 
       const removeSuccessMessage = () => {
@@ -105,21 +106,19 @@
     });
   };
 
+  const reset = () => {
+    window.state.deactivate();
+
+    resetButton.removeEventListener(`click`, onReset);
+  };
+
+  const onReset = (evt) => {
+    evt.preventDefault();
+
+    window.util.isLeftMouseButtonEvent(evt, reset);
+  };
+
   const clear = () => {
-    const resetButton = addForm.querySelector(`.ad-form__reset`);
-
-    const reset = () => {
-      window.pin.deactivation();
-
-      resetButton.removeEventListener(`click`, onReset);
-    };
-
-    const onReset = (evt) => {
-      evt.preventDefault();
-
-      window.util.isLeftMouseButtonEvent(evt, reset);
-    };
-
     resetButton.addEventListener(`click`, onReset);
   };
 

@@ -11,69 +11,27 @@
   const MAIN_PIN_GAP = 30;
 
   const mapPinMain = document.querySelector(`.map__pin--main`);
-  const maxXCoordinate = window.card.getMapWidth();
+  const maxXCoordinate = window.map.getMapWidth();
 
   let coordinateX;
   let coordinateY;
-  let isActive = false;
 
   const resetPinPosition = () => {
     mapPinMain.style.left = `${String(Math.floor(maxXCoordinate / 2) - MAIN_PIN_GAP)}px`;
     mapPinMain.style.top = `${String(MAIN_PIN_Y_DEFAULT)}px`;
   };
 
-  const deactivation = () => {
-    isActive = false;
-
-    window.card.switchMap();
-    window.form.switchAddForm();
-    window.form.toggleForms();
-    window.render.removePins();
-    window.card.closeCard();
-    window.form.setPriceRange();
-    resetPinPosition();
-    window.form.setAddress();
-  };
-
   const init = () => {
-    const activation = () => {
-      isActive = true;
-
-      window.card.switchMap();
-      window.form.switchAddForm();
-      window.form.toggleForms();
-      window.form.setAddress();
-      window.validation.validation();
-      window.render.renderData();
-      window.card.mapClick();
-      window.filter.changeFilter();
-      window.form.send();
-      window.form.clear();
-      window.form.setAvatar();
-      window.form.setPhoto();
-
-      mapPinMain.removeEventListener(`mousedown`, onMapActivation);
-      mapPinMain.removeEventListener(`keydown`, onMapActivation);
-    };
-
-    const onMapActivation = (evt) => {
-      if (evt.type === `keydown`) {
-        window.util.isEnterEvent(evt, activation);
-      } else if (evt.type === `mousedown`) {
-        window.util.isLeftMouseButtonEvent(evt, activation);
-      }
-    };
-
     mapPinMain.addEventListener(`mousedown`, (evt) => {
-      if (!isActive) {
-        onMapActivation(evt);
+      if (!window.state.isActiveState()) {
+        window.state.onMapActivation(evt, mapPinMain);
       }
-      window.pin.onMoveMainMapPin(evt);
+      onMoveMainMapPin(evt);
     });
 
     mapPinMain.addEventListener(`keydown`, (evt) => {
-      if (!isActive) {
-        onMapActivation(evt);
+      if (!window.state.isActiveState()) {
+        window.state.onMapActivation(evt, mapPinMain);
       }
     });
   };
@@ -98,7 +56,7 @@
     const activePinHeight = parseInt(getComputedStyle(mapPinMain, `:after`).height, BASE);
 
     coordinateX = Math.floor(pinOffsetX + (pinWidth / 2));
-    coordinateY = window.card.isMapActive()
+    coordinateY = window.map.isMapActive()
       ? Math.floor(pinOffsetY + pinHeight + activePinHeight)
       : Math.floor(pinOffsetY + (pinHeight / 2));
   };
@@ -156,7 +114,6 @@
   };
 
   window.pin = {
-    deactivation,
     init,
     createMapPin,
     getMapPinCoordinate,
