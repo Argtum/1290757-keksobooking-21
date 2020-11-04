@@ -57,8 +57,10 @@
   };
 
   const getCardData = (target) => {
+    const name = target.alt ? target.alt : target.querySelector(`img`).alt;
+
     return window.data.adsData.filter((item) => {
-      return item.offer.title === target.alt ? target.alt : target.querySelector(`img`).alt;
+      return item.offer.title === name;
     });
   };
 

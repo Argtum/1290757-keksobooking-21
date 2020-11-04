@@ -1,54 +1,59 @@
 'use strict';
 
 (function () {
-  const validation = () => {
-    const type = document.querySelector(`#type`);
-    const timein = document.querySelector(`#timein`);
-    const timeout = document.querySelector(`#timeout`);
-    const roomNumber = document.querySelector(`#room_number`);
+  let type;
+  let timein;
+  let timeout;
+  let roomNumber;
 
-    const setPriceMinRange = (value) => {
-      const priceValue = String(window.data.getTypeValue(value, `price`));
+  const setTime = (value, id) => {
+    if (id === `timein`) {
+      timeout.value = value;
+    } else {
+      timein.value = value;
+    }
+  };
 
-      window.form.setPriceRange(priceValue);
-    };
+  const setPriceMinRange = (value) => {
+    const priceValue = String(window.data.getTypeValue(value, `price`));
 
-    const setTime = (value, id) => {
-      if (id === `timein`) {
-        timeout.value = value;
+    window.form.setPriceRange(priceValue);
+  };
+
+  const setNumPlaces = (value) => {
+    const capacity = document.querySelector(`#capacity`);
+    const capacityFiltered = capacity.cloneNode(true);
+
+    for (let i = capacityFiltered.children.length - 1; i >= 0; i--) {
+      if (value === `100`) {
+        capacityFiltered.children[i].disabled = capacityFiltered.children[i].value !== `0`;
       } else {
-        timein.value = value;
+        capacityFiltered.children[i].disabled = capacityFiltered.children[i].value > value || capacityFiltered.children[i].value === `0`;
       }
-    };
+    }
 
-    const setNumPlaces = (value) => {
-      const capacity = document.querySelector(`#capacity`);
-      const capacityFiltered = capacity.cloneNode(true);
+    capacity.innerHTML = null;
+    capacity.insertAdjacentHTML(`beforeend`, capacityFiltered.innerHTML);
+    capacity.value = value !== `100` ? value : `0`;
+  };
 
-      for (let i = capacityFiltered.children.length - 1; i >= 0; i--) {
-        if (value === `100`) {
-          capacityFiltered.children[i].disabled = capacityFiltered.children[i].value !== `0`;
-        } else {
-          capacityFiltered.children[i].disabled = capacityFiltered.children[i].value > value || capacityFiltered.children[i].value === `0`;
-        }
-      }
+  const onSetPriceMinRange = (evt) => {
+    setPriceMinRange(evt.target.value);
+  };
 
-      capacity.innerHTML = null;
-      capacity.insertAdjacentHTML(`beforeend`, capacityFiltered.innerHTML);
-      capacity.value = value !== `100` ? value : `0`;
-    };
+  const onSetTime = (evt) => {
+    setTime(evt.target.value, evt.target.id);
+  };
 
-    const onSetPriceMinRange = (evt) => {
-      window.util.isInputEvent(evt, setPriceMinRange);
-    };
+  const onSetNumPlaces = (evt) => {
+    setNumPlaces(evt.target.value);
+  };
 
-    const onSetTime = (evt) => {
-      window.util.isInputEvent(evt, setTime);
-    };
-
-    const onSetNumPlaces = (evt) => {
-      window.util.isInputEvent(evt, setNumPlaces);
-    };
+  const start = () => {
+    type = document.querySelector(`#type`);
+    timein = document.querySelector(`#timein`);
+    timeout = document.querySelector(`#timeout`);
+    roomNumber = document.querySelector(`#room_number`);
 
     type.addEventListener(`input`, onSetPriceMinRange);
     timein.addEventListener(`input`, onSetTime);
@@ -56,7 +61,15 @@
     roomNumber.addEventListener(`input`, onSetNumPlaces);
   };
 
+  const stop = () => {
+    type.removeEventListener(`input`, onSetPriceMinRange);
+    timein.removeEventListener(`input`, onSetTime);
+    timeout.removeEventListener(`input`, onSetTime);
+    roomNumber.removeEventListener(`input`, onSetNumPlaces);
+  };
+
   window.validation = {
-    validation
+    start,
+    stop
   };
 })();

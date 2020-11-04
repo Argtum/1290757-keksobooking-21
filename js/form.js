@@ -72,7 +72,7 @@
     };
 
     const success = () => {
-      window.pin.deactivate();
+      window.state.deactivate();
       window.render.renderSuccessMessage();
 
       const removeSuccessMessage = () => {

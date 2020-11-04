@@ -13,11 +13,13 @@
     window.map.switchMap();
     window.form.switchAddForm();
     window.form.toggleForms();
+    window.form.setAddress();
+    window.validation.stop();
+
     window.render.removePins();
     window.card.closeCard(window.map.getMap());
     window.form.setPriceRange();
     window.pin.resetPinPosition();
-    window.form.setAddress();
   };
 
   const activate = (mapPinMain) => {
@@ -27,7 +29,8 @@
     window.form.switchAddForm();
     window.form.toggleForms();
     window.form.setAddress();
-    window.validation.validation();
+    window.validation.start();
+
     window.render.renderData();
     window.map.mapClick();
     window.filter.changeFilter();
