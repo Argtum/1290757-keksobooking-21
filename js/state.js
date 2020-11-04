@@ -11,9 +11,10 @@
     isActively = false;
 
     window.map.switchMap();
-    window.form.switchAddForm();
+    window.form.switchForm();
     window.form.toggleForms();
     window.form.setAddress();
+    window.validation.setNumPlaces();
     window.validation.stop();
     window.render.removePins();
     window.card.closeCard(window.map.getMap());
@@ -27,7 +28,7 @@
     isActively = true;
 
     window.map.switchMap();
-    window.form.switchAddForm();
+    window.form.switchForm();
     window.form.toggleForms();
     window.form.setAddress();
     window.validation.start();

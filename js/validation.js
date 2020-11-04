@@ -20,7 +20,7 @@
     window.form.setPriceRange(priceValue);
   };
 
-  const setNumPlaces = (value) => {
+  const setNumPlaces = (value = `1`) => {
     const capacity = document.querySelector(`#capacity`);
     const capacityFiltered = capacity.cloneNode(true);
 
@@ -70,6 +70,7 @@
 
   window.validation = {
     start,
-    stop
+    stop,
+    setNumPlaces
   };
 })();

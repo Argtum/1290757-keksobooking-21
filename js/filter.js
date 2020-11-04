@@ -3,7 +3,7 @@
 (function () {
   const QUANTITY = 5;
   const DEBOUNCE_INTERVAL = 500;
-  const BASE = 10;
+  const DECIMAL_BASE = 10;
   const PRICE_LOWER_LIMIT = 10000;
   const PRICE_UPPER_LIMIT = 50000;
   const PRICE_RANGE_MIDDLE = `middle`;
@@ -50,8 +50,8 @@
     const filteredPins = window.data.adsData.filter((item) => {
       return (housingType.value === ANY_FILTER_VALUE || housingType.value === item.offer.type)
         && (housingPrice.value === ANY_FILTER_VALUE || checkPrice(item.offer.price))
-        && (housingRoom.value === ANY_FILTER_VALUE || parseInt(housingRoom.value, BASE) === item.offer.rooms)
-        && (housingGuests.value === ANY_FILTER_VALUE || parseInt(housingGuests.value, BASE) === item.offer.guests)
+        && (housingRoom.value === ANY_FILTER_VALUE || parseInt(housingRoom.value, DECIMAL_BASE) === item.offer.rooms)
+        && (housingGuests.value === ANY_FILTER_VALUE || parseInt(housingGuests.value, DECIMAL_BASE) === item.offer.guests)
         && (filterWifi.checked && item.offer.features.includes(filterWifi.value) || !filterWifi.checked)
         && (filterDishwasher.checked && item.offer.features.includes(filterDishwasher.value) || !filterDishwasher.checked)
         && (filterParking.checked && item.offer.features.includes(filterParking.value) || !filterParking.checked)

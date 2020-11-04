@@ -42,7 +42,7 @@
     removeXhrListener(xhr);
   };
 
-  const upload = (data, onSuccess, onError) => {
+  const uploadFormData = (data, onSuccess, onError) => {
     const xhr = new XMLHttpRequest();
 
     xhr.timeout = TIMEOUT_IN_MS;
@@ -64,7 +64,7 @@
     xhr.send(data);
   };
 
-  const load = (onSuccess, onError) => {
+  const loadData = (onSuccess, onError) => {
     const xhr = new XMLHttpRequest();
 
     xhr.timeout = TIMEOUT_IN_MS;
@@ -87,7 +87,7 @@
   };
 
   window.network = {
-    upload,
-    load
+    uploadFormData,
+    loadData
   };
 })();

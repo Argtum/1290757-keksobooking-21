@@ -6,7 +6,7 @@
   const MAX_Y_COORDINATE = 630;
   const MIN_Y_COORDINATE = 130;
   const MIN_X_COORDINATE = 0;
-  const BASE = 10;
+  const DECIMAL_BASE = 10;
   const MAIN_PIN_Y_DEFAULT = 375;
   const MAIN_PIN_GAP = 30;
 
@@ -53,10 +53,10 @@
     const pinOffsetY = mapPinMain.offsetTop;
     const pinWidth = mapPinMain.offsetWidth;
     const pinHeight = mapPinMain.clientHeight;
-    const activePinHeight = parseInt(getComputedStyle(mapPinMain, `:after`).height, BASE);
+    const activePinHeight = parseInt(getComputedStyle(mapPinMain, `:after`).height, DECIMAL_BASE);
 
     coordinateX = Math.floor(pinOffsetX + (pinWidth / 2));
-    coordinateY = window.map.isMapActive()
+    coordinateY = window.map.checkMapActivity()
       ? Math.floor(pinOffsetY + pinHeight + activePinHeight)
       : Math.floor(pinOffsetY + (pinHeight / 2));
   };

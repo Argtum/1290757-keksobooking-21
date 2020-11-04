@@ -37,7 +37,7 @@
   };
 
   const getData = (onSuccess) => {
-    window.network.load(onSuccess, (msg) => {
+    window.network.loadData(onSuccess, (msg) => {
       window.render.renderLoadErrorMessage(msg);
     });
   };

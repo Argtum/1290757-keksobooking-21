@@ -26,7 +26,7 @@
     map.classList.toggle(`map--faded`);
   };
 
-  const isMapActive = () => {
+  const checkMapActivity = () => {
     return !map.classList.contains(`map--faded`);
   };
 
@@ -34,6 +34,6 @@
     clickOnMap,
     getMap,
     switchMap,
-    isMapActive
+    checkMapActivity
   };
 })();
