@@ -3,7 +3,7 @@
 (function () {
   const map = document.querySelector(`.map`);
 
-  const mapClick = () => {
+  const clickOnMap = () => {
     map.addEventListener(`mousedown`, (evt) => {
       window.card.onCardOpen(evt, map);
       window.card.onCardClose(evt, map);
@@ -31,7 +31,7 @@
   };
 
   window.map = {
-    mapClick,
+    clickOnMap,
     getMap,
     switchMap,
     isMapActive

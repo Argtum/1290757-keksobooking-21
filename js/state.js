@@ -15,11 +15,12 @@
     window.form.toggleForms();
     window.form.setAddress();
     window.validation.stop();
-
     window.render.removePins();
     window.card.closeCard(window.map.getMap());
-    window.form.setPriceRange();
     window.pin.resetPinPosition();
+    window.form.setPriceRange();
+    window.filter.stopChange();
+    window.form.stopSubmissionHandler();
   };
 
   const activate = (mapPinMain) => {
@@ -30,14 +31,12 @@
     window.form.toggleForms();
     window.form.setAddress();
     window.validation.start();
-
     window.render.renderData();
-    window.map.mapClick();
-    window.filter.changeFilter();
-    window.form.send();
+    window.filter.change();
     window.form.clear();
     window.form.setAvatar();
     window.form.setPhoto();
+    window.form.submissionHandler();
 
     mapPinMain.removeEventListener(`mousedown`, onMapActivation);
     mapPinMain.removeEventListener(`keydown`, onMapActivation);

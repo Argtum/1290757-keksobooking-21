@@ -8,6 +8,7 @@
 
   const addForm = document.querySelector(`.ad-form`);
   const resetButton = addForm.querySelector(`.ad-form__reset`);
+  const errorButton = document.querySelector(`.error__button`);
 
   const switchAddForm = () => {
     addForm.classList.toggle(`ad-form--disabled`);
@@ -40,86 +41,94 @@
     priceField.min = value;
   };
 
-  const send = () => {
-    const error = () => {
-      window.render.renderErrorMessage();
-      const errorButton = document.querySelector(`.error__button`);
+  const removeErrorMessage = () => {
+    const errorMessage = document.querySelector(`.error`);
 
-      const removeErrorMessage = () => {
-        const errorMessage = document.querySelector(`.error`);
+    window.render.removeMessage(errorMessage);
 
-        window.render.removeMessage(errorMessage);
+    document.removeEventListener(`mousedown`, onErrorCardClose);
+    errorButton.addEventListener(`mousedown`, onErrorCardClose);
+    document.removeEventListener(`keydown`, onErrorCardClose);
+  };
 
-        document.removeEventListener(`mousedown`, onCardClose);
-        document.removeEventListener(`keydown`, onCardClose);
-      };
+  const onErrorCardClose = (evt) => {
+    if (evt.type === `keydown`) {
+      if (evt.target.classList.contains(`error__button`)) {
+        window.util.isEnterEvent(evt, removeErrorMessage);
+      } else {
+        window.util.isEscapeEvent(evt, removeErrorMessage);
+      }
+    } else if (evt.type === `mousedown`) {
+      window.util.isLeftMouseButtonEvent(evt, removeErrorMessage);
+    }
+  };
 
-      const onCardClose = (evt) => {
-        if (evt.type === `keydown`) {
-          if (evt.target.classList.contains(`error__button`)) {
-            window.util.isEnterEvent(evt, removeErrorMessage);
-          } else {
-            window.util.isEscapeEvent(evt, removeErrorMessage);
-          }
-        } else if (evt.type === `mousedown`) {
-          window.util.isLeftMouseButtonEvent(evt, removeErrorMessage);
-        }
-      };
+  const error = () => {
+    window.render.renderErrorMessage();
 
-      document.addEventListener(`mousedown`, onCardClose);
-      errorButton.addEventListener(`mousedown`, onCardClose);
-      document.addEventListener(`keydown`, onCardClose);
-    };
+    document.addEventListener(`mousedown`, onErrorCardClose);
+    errorButton.addEventListener(`mousedown`, onErrorCardClose);
+    document.addEventListener(`keydown`, onErrorCardClose);
+  };
 
-    const success = () => {
-      window.state.deactivate();
-      window.render.renderSuccessMessage();
+  const removeSuccessMessage = () => {
+    const successMessage = document.querySelector(`.success`);
 
-      const removeSuccessMessage = () => {
-        const successMessage = document.querySelector(`.success`);
+    window.render.removeMessage(successMessage);
 
-        window.render.removeMessage(successMessage);
+    document.removeEventListener(`mousedown`, onSuccessCardClose);
+    document.removeEventListener(`keydown`, onSuccessCardClose);
+  };
 
-        document.removeEventListener(`mousedown`, onCardClose);
-        document.removeEventListener(`keydown`, onCardClose);
-      };
+  const onSuccessCardClose = (evt) => {
+    if (evt.type === `keydown`) {
+      window.util.isEscapeEvent(evt, removeSuccessMessage);
+    } else if (evt.type === `mousedown`) {
+      window.util.isLeftMouseButtonEvent(evt, removeSuccessMessage);
+    }
+  };
 
-      const onCardClose = (evt) => {
-        if (evt.type === `keydown`) {
-          window.util.isEscapeEvent(evt, removeSuccessMessage);
-        } else if (evt.type === `mousedown`) {
-          window.util.isLeftMouseButtonEvent(evt, removeSuccessMessage);
-        }
-      };
+  const success = () => {
+    window.state.deactivate();
+    window.render.renderSuccessMessage();
 
-      document.addEventListener(`mousedown`, onCardClose);
-      document.addEventListener(`keydown`, onCardClose);
-    };
+    document.addEventListener(`mousedown`, onSuccessCardClose);
+    document.addEventListener(`keydown`, onSuccessCardClose);
+  };
 
-    const onSendData = () => {
-      window.network.upload(new FormData(addForm), success, error);
-    };
+  const onSendData = (evt) => {
+    evt.preventDefault();
+    window.network.upload(new FormData(addForm), success, error);
+  };
 
-    addForm.addEventListener(`submit`, (evt) => {
-      evt.preventDefault();
-      onSendData();
-    });
+  const submissionHandler = () => {
+    addForm.addEventListener(`submit`, onSendData);
+  };
+
+  const stopSubmissionHandler = () => {
+    addForm.addEventListener(`submit`, onSendData);
   };
 
   const reset = () => {
     window.state.deactivate();
 
-    resetButton.removeEventListener(`click`, onReset);
+    resetButton.removeEventListener(`mousedown`, onReset);
+    resetButton.removeEventListener(`keydown`, onReset);
   };
 
   const onReset = (evt) => {
     evt.preventDefault();
 
-    window.util.isLeftMouseButtonEvent(evt, reset);
+    if (evt.type === `keydown`) {
+      window.util.isEnterEvent(evt, reset);
+    } else if (evt.type === `mousedown`) {
+      window.util.isLeftMouseButtonEvent(evt, reset);
+    }
   };
 
   const clear = () => {
-    resetButton.addEventListener(`click`, onReset);
+    resetButton.addEventListener(`mousedown`, onReset);
+    resetButton.addEventListener(`keydown`, onReset);
   };
 
   const loadPicture = (input, preview) => {
@@ -183,7 +192,8 @@
     toggleForm,
     setAddress,
     toggleForms,
-    send,
+    submissionHandler,
+    stopSubmissionHandler,
     clear,
     setPriceRange,
     setAvatar,

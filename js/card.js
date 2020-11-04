@@ -73,10 +73,14 @@
   const onCardOpen = (evt, map) => {
     if (evt.target.closest(`.map__pin`) && !evt.target.closest(`.map__pin--main`)) {
       if (evt.type === `keydown`) {
+        evt.preventDefault();
+        evt.stopPropagation();
         window.util.isEnterEvent(evt, () => {
           openCard(evt, map);
         });
       } else if (evt.type === `mousedown`) {
+        evt.preventDefault();
+        evt.stopPropagation();
         window.util.isLeftMouseButtonEvent(evt, () => {
           openCard(evt, map);
         });
@@ -86,10 +90,14 @@
 
   const onCardClose = (evt, map) => {
     if (evt.type === `keydown`) {
+      evt.preventDefault();
+      evt.stopPropagation();
       window.util.isEscapeEvent(evt, () => {
         closeCard(map);
       });
     } else if (evt.type === `mousedown` && evt.target.className === `popup__close`) {
+      evt.preventDefault();
+      evt.stopPropagation();
       window.util.isLeftMouseButtonEvent(evt, () => {
         closeCard(map);
       });

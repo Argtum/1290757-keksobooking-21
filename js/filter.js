@@ -13,6 +13,8 @@
 
   const form = document.querySelector(`.map__filters`);
 
+  let lastTimeout;
+
   const limitQuantity = (data = window.data.adsData) => {
     return data.slice(0, QUANTITY);
   };
@@ -62,22 +64,27 @@
     window.render.renderMapPins(limitQuantity(filteredPins));
   };
 
-  const changeFilter = () => {
-    let lastTimeout;
+  const onChange = () => {
+    if (lastTimeout) {
+      window.clearTimeout(lastTimeout);
+    }
+    lastTimeout = window.setTimeout(function () {
+      setFilter();
+    }, DEBOUNCE_INTERVAL);
+  };
 
-    form.addEventListener(`change`, () => {
-      if (lastTimeout) {
-        window.clearTimeout(lastTimeout);
-      }
-      lastTimeout = window.setTimeout(function () {
-        setFilter();
-      }, DEBOUNCE_INTERVAL);
-    });
+  const stopChange = () => {
+    form.removeEventListener(`change`, onChange);
+  };
+
+  const change = () => {
+    form.addEventListener(`change`, onChange);
   };
 
   window.filter = {
     getFilterElement,
     limitQuantity,
-    changeFilter
+    change,
+    stopChange
   };
 })();
