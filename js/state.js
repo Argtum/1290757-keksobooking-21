@@ -10,15 +10,15 @@
   const deactivate = () => {
     isActively = false;
 
-    window.map.switchMap();
+    window.map.toggle();
     window.form.switchForm();
     window.form.toggleForms();
-    window.form.setAddress();
     window.validation.setNumPlaces();
     window.validation.stop();
     window.render.removePins();
-    window.card.closeCard(window.map.getMap());
-    window.pin.resetPinPosition();
+    window.card.close(window.map.get());
+    window.pin.resetPosition();
+    window.form.setAddress();
     window.form.setPriceRange();
     window.filter.stopChange();
     window.form.stopSubmissionHandler();
@@ -27,7 +27,7 @@
   const activate = (mapPinMain) => {
     isActively = true;
 
-    window.map.switchMap();
+    window.map.toggle();
     window.form.switchForm();
     window.form.toggleForms();
     window.form.setAddress();
@@ -39,11 +39,11 @@
     window.form.setPhoto();
     window.form.submissionHandler();
 
-    mapPinMain.removeEventListener(`mousedown`, onMapActivation);
-    mapPinMain.removeEventListener(`keydown`, onMapActivation);
+    mapPinMain.removeEventListener(`mousedown`, onActivation);
+    mapPinMain.removeEventListener(`keydown`, onActivation);
   };
 
-  const onMapActivation = (evt, mapPinMain) => {
+  const onActivation = (evt, mapPinMain) => {
     if (evt.type === `keydown`) {
       window.util.isEnterEvent(evt, () => {
         activate(mapPinMain);
@@ -57,7 +57,7 @@
 
   window.state = {
     deactivate,
-    onMapActivation,
+    onActivation,
     isActiveState
   };
 })();

@@ -18,7 +18,7 @@
 
     data.forEach((pinData) => {
       if (pinData.offer) {
-        const mapPin = window.pin.createMapPin(pinData, mapPinTemplate);
+        const mapPin = window.pin.create(pinData, mapPinTemplate);
 
         fragment.appendChild(mapPin);
       }
@@ -32,7 +32,7 @@
     const cardTemplate = document.querySelector(`#card`).content.querySelector(`.map__card`);
     const cardPositionMarker = document.querySelector(`.map__filters-container`);
     const fragment = document.createDocumentFragment();
-    const card = window.card.createCard(data, cardTemplate);
+    const card = window.card.create(data, cardTemplate);
 
     fragment.appendChild(card);
     map.insertBefore(fragment, cardPositionMarker);

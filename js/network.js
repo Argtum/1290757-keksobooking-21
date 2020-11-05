@@ -4,6 +4,7 @@
   const URL_LOAD = `https://21.javascript.pages.academy/keksobooking/data`;
   const URL_UPLOAD = `https://21.javascript.pages.academy/keksobooking`;
   const TIMEOUT_IN_MS = 10000;
+  const RESPONSE_DATA_TYPE = `json`;
   const StatusCode = {
     OK: 200
   };
@@ -46,7 +47,7 @@
     const xhr = new XMLHttpRequest();
 
     xhr.timeout = TIMEOUT_IN_MS;
-    xhr.responseType = `json`;
+    xhr.responseType = RESPONSE_DATA_TYPE;
 
     xhr.addEventListener(`load`, () => {
       onXhrUpload(xhr, onSuccess);
@@ -68,7 +69,7 @@
     const xhr = new XMLHttpRequest();
 
     xhr.timeout = TIMEOUT_IN_MS;
-    xhr.responseType = `json`;
+    xhr.responseType = RESPONSE_DATA_TYPE;
 
     xhr.addEventListener(`load`, () => {
       onXhrLoad(xhr, onSuccess, onError);

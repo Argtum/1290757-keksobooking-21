@@ -5,10 +5,12 @@
   const FILE_TYPES = [`gif`, `jpg`, `jpeg`, `png`];
   const PICTURE_WIDTH = 70;
   const PICTURE_HEIGHT = 70;
+  const IMAGE_TAG_NAME = `IMG`;
 
   const form = document.querySelector(`.ad-form`);
-  const resetButton = form.querySelector(`.ad-form__reset`);
   const errorButton = document.querySelector(`.error__button`);
+
+  let resetButton;
 
   const switchForm = () => {
     form.classList.toggle(`ad-form--disabled`);
@@ -31,7 +33,7 @@
   };
 
   const setAddress = () => {
-    document.querySelector(`#address`).value = window.pin.getMapPinCoordinate();
+    document.querySelector(`#address`).value = window.pin.getCoordinate();
   };
 
   const setPriceRange = (value = DEFAULT_PRICE_LIMIT) => {
@@ -117,8 +119,6 @@
   };
 
   const onReset = (evt) => {
-    evt.preventDefault();
-
     if (evt.type === `keydown`) {
       window.util.isEnterEvent(evt, reset);
     } else if (evt.type === `mousedown`) {
@@ -127,6 +127,8 @@
   };
 
   const clear = () => {
+    resetButton = form.querySelector(`.ad-form__reset`);
+
     resetButton.addEventListener(`mousedown`, onReset);
     resetButton.addEventListener(`keydown`, onReset);
   };
@@ -143,7 +145,7 @@
       const reader = new FileReader();
 
       reader.addEventListener(`load`, () => {
-        if (preview.tagName === `IMG`) {
+        if (preview.tagName === IMAGE_TAG_NAME) {
           preview.src = reader.result;
         } else {
           const image = document.createElement(`img`);

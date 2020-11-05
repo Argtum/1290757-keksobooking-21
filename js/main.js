@@ -1,6 +1,6 @@
 'use strict';
 
 window.form.toggleForms();
-window.pin.init();
+window.pin.initApp();
 window.form.setAddress();
-window.map.clickOnMap();
+window.map.click();

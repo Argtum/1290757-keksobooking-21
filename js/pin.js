@@ -11,32 +11,32 @@
   const MAIN_PIN_GAP = 30;
 
   const mapPinMain = document.querySelector(`.map__pin--main`);
-  const maxXCoordinate = window.map.getMap().clientWidth;
+  const maxXCoordinate = window.map.get().clientWidth;
 
   let coordinateX;
   let coordinateY;
 
-  const resetPinPosition = () => {
+  const resetPosition = () => {
     mapPinMain.style.left = `${String(Math.floor(maxXCoordinate / 2) - MAIN_PIN_GAP)}px`;
     mapPinMain.style.top = `${String(MAIN_PIN_Y_DEFAULT)}px`;
   };
 
-  const init = () => {
+  const initApp = () => {
     mapPinMain.addEventListener(`mousedown`, (evt) => {
       if (!window.state.isActiveState()) {
-        window.state.onMapActivation(evt, mapPinMain);
+        window.state.onActivation(evt, mapPinMain);
       }
       onMoveMainMapPin(evt);
     });
 
     mapPinMain.addEventListener(`keydown`, (evt) => {
       if (!window.state.isActiveState()) {
-        window.state.onMapActivation(evt, mapPinMain);
+        window.state.onActivation(evt, mapPinMain);
       }
     });
   };
 
-  const createMapPin = (data, template) => {
+  const create = (data, template) => {
     const mapPinItem = template.cloneNode(true);
     const mapPinImg = mapPinItem.querySelector(`img`);
 
@@ -61,7 +61,7 @@
       : Math.floor(pinOffsetY + (pinHeight / 2));
   };
 
-  const getMapPinCoordinate = () => {
+  const getCoordinate = () => {
     setMapPinCoordinate();
 
     return `${coordinateX}, ${coordinateY}`;
@@ -114,10 +114,10 @@
   };
 
   window.pin = {
-    init,
-    createMapPin,
-    getMapPinCoordinate,
+    initApp,
+    create,
+    getCoordinate,
     onMoveMainMapPin,
-    resetPinPosition
+    resetPosition
   };
 })();

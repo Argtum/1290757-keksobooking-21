@@ -3,7 +3,7 @@
 (function () {
   const map = document.querySelector(`.map`);
 
-  const clickOnMap = () => {
+  const click = () => {
     map.addEventListener(`mousedown`, (evt) => {
       window.card.onCardOpen(evt, map);
       window.card.onCardClose(evt, map);
@@ -18,11 +18,11 @@
     });
   };
 
-  const getMap = () => {
+  const get = () => {
     return map;
   };
 
-  const switchMap = () => {
+  const toggle = () => {
     map.classList.toggle(`map--faded`);
   };
 
@@ -31,9 +31,9 @@
   };
 
   window.map = {
-    clickOnMap,
-    getMap,
-    switchMap,
+    click,
+    get,
+    toggle,
     checkMapActivity
   };
 })();

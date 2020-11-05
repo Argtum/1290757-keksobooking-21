@@ -31,7 +31,7 @@
     photosList.removeChild(photoTemplate);
   };
 
-  const createCard = (data, template) => {
+  const create = (data, template) => {
     const cardItem = template.cloneNode(true);
 
     cardItem.querySelector(`.popup__title`).textContent = data.offer.title;
@@ -48,7 +48,7 @@
     return cardItem;
   };
 
-  const closeCard = (map) => {
+  const close = (map) => {
     const card = map.querySelector(`.map__card`);
 
     if (card) {
@@ -65,7 +65,7 @@
   };
 
   const openCard = (evt, map) => {
-    closeCard(map);
+    close(map);
 
     window.render.renderCard(getCardData(evt.target)[0], map);
   };
@@ -87,18 +87,18 @@
   const onCardClose = (evt, map) => {
     if (evt.type === `keydown`) {
       window.util.isEscapeEvent(evt, () => {
-        closeCard(map);
+        close(map);
       });
     } else if (evt.type === `mousedown` && evt.target.className === `popup__close`) {
       window.util.isLeftMouseButtonEvent(evt, () => {
-        closeCard(map);
+        close(map);
       });
     }
   };
 
   window.card = {
-    createCard,
-    closeCard,
+    create,
+    close,
     onCardOpen,
     onCardClose
   };

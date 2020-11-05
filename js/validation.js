@@ -1,13 +1,18 @@
 'use strict';
 
 (function () {
+  const MAX_ROOMS = `100`;
+  const DEFAULT_NUMBER_OF_PLACES = `1`;
+  const PLACES_NOT_FOR_GUESTS = `0`;
+  const CHECK_IN_TIME_FIELD_ID = `timein`;
+
   let type;
   let timein;
   let timeout;
   let roomNumber;
 
   const setTime = (value, id) => {
-    if (id === `timein`) {
+    if (id === CHECK_IN_TIME_FIELD_ID) {
       timeout.value = value;
     } else {
       timein.value = value;
@@ -20,21 +25,21 @@
     window.form.setPriceRange(priceValue);
   };
 
-  const setNumPlaces = (value = `1`) => {
+  const setNumPlaces = (value = DEFAULT_NUMBER_OF_PLACES) => {
     const capacity = document.querySelector(`#capacity`);
     const capacityFiltered = capacity.cloneNode(true);
 
     for (let i = capacityFiltered.children.length - 1; i >= 0; i--) {
-      if (value === `100`) {
-        capacityFiltered.children[i].disabled = capacityFiltered.children[i].value !== `0`;
+      if (value === MAX_ROOMS) {
+        capacityFiltered.children[i].disabled = capacityFiltered.children[i].value !== PLACES_NOT_FOR_GUESTS;
       } else {
-        capacityFiltered.children[i].disabled = capacityFiltered.children[i].value > value || capacityFiltered.children[i].value === `0`;
+        capacityFiltered.children[i].disabled = capacityFiltered.children[i].value > value || capacityFiltered.children[i].value === PLACES_NOT_FOR_GUESTS;
       }
     }
 
     capacity.innerHTML = null;
     capacity.insertAdjacentHTML(`beforeend`, capacityFiltered.innerHTML);
-    capacity.value = value !== `100` ? value : `0`;
+    capacity.value = value !== MAX_ROOMS ? value : PLACES_NOT_FOR_GUESTS;
   };
 
   const onSetPriceMinRange = (evt) => {
