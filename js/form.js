@@ -159,6 +159,23 @@
     setPreview(reader, preview);
   };
 
+  const closeErrorMsg = () => {
+    const errorMessage = document.querySelector(`.error`);
+
+    window.render.removeMessage(errorMessage);
+
+    document.removeEventListener(`mousedown`, onCloseErrorMsg);
+    document.removeEventListener(`keydown`, onCloseErrorMsg);
+  };
+
+  const onCloseErrorMsg = (evt) => {
+    if (evt.type === `keydown`) {
+      window.util.isEscapeEvent(evt, closeErrorMsg);
+    } else if (evt.type === `mousedown`) {
+      window.util.isLeftMouseButtonEvent(evt, closeErrorMsg);
+    }
+  };
+
   const loadPicture = (input, preview) => {
     const file = input.files[0];
     const fileName = file.name.toLowerCase();
@@ -167,14 +184,23 @@
       return fileName.endsWith(it);
     });
 
-    if (matches) {
-      const reader = new FileReader();
+    try {
+      if (matches) {
+        const reader = new FileReader();
 
-      reader.addEventListener(`load`, () => {
-        onSetPreview(reader, preview);
-      });
+        reader.addEventListener(`load`, () => {
+          onSetPreview(reader, preview);
+        });
 
-      reader.readAsDataURL(file);
+        reader.readAsDataURL(file);
+      } else {
+        throw new Error(`Загружать можно только картинки, следующих форматов: gif, jpg, jpeg, png`);
+      }
+    } catch (e) {
+      window.render.renderCustomErrorMessage(e.message);
+
+      document.addEventListener(`mousedown`, onCloseErrorMsg);
+      document.addEventListener(`keydown`, onCloseErrorMsg);
     }
   };
 

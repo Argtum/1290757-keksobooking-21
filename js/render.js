@@ -63,12 +63,16 @@
     main.appendChild(fragment);
   };
 
-  const renderLoadErrorMessage = (msg) => {
+  const renderCustomErrorMessage = (msg) => {
+    const errorMessageTemplate = document.querySelector(`#error`).content.querySelector(`.error`);
+    const errorMessage = errorMessageTemplate.cloneNode();
     const paragraph = document.createElement(`p`);
 
     paragraph.innerHTML = msg;
+    paragraph.classList.add(`error__message`);
 
-    main.appendChild(paragraph);
+    errorMessage.appendChild(paragraph);
+    main.appendChild(errorMessage);
   };
 
   const removeMessage = (msg) => {
@@ -83,6 +87,6 @@
     renderSuccessMessage,
     renderErrorMessage,
     removeMessage,
-    renderLoadErrorMessage
+    renderCustomErrorMessage
   };
 })();
