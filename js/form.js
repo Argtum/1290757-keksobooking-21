@@ -9,9 +9,9 @@
   const DEFAULT_AVATAR_IMAGE = `img/muffin-grey.svg`;
 
   const form = document.querySelector(`.ad-form`);
-  const errorButton = document.querySelector(`.error__button`);
 
   let resetButton;
+  let errorButton;
 
   const switchForm = () => {
     form.classList.toggle(`ad-form--disabled`);
@@ -50,7 +50,7 @@
     window.render.removeMessage(errorMessage);
 
     document.removeEventListener(`mousedown`, onErrorCardClose);
-    errorButton.addEventListener(`mousedown`, onErrorCardClose);
+    errorButton.removeEventListener(`keydown`, onErrorCardClose);
     document.removeEventListener(`keydown`, onErrorCardClose);
   };
 
@@ -69,8 +69,10 @@
   const sentWithError = () => {
     window.render.renderErrorMessage();
 
+    errorButton = document.querySelector(`.error__button`);
+
     document.addEventListener(`mousedown`, onErrorCardClose);
-    errorButton.addEventListener(`mousedown`, onErrorCardClose);
+    errorButton.addEventListener(`keydown`, onErrorCardClose);
     document.addEventListener(`keydown`, onErrorCardClose);
   };
 
@@ -101,6 +103,7 @@
 
   const onSendData = (evt) => {
     evt.preventDefault();
+
     window.network.uploadFormData(new FormData(form), sentSuccessfully, sentWithError);
   };
 
