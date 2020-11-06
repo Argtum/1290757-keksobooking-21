@@ -39,6 +39,9 @@
   const getData = (onSuccess) => {
     window.network.loadData(onSuccess, (msg) => {
       window.render.renderCustomErrorMessage(msg);
+
+      document.addEventListener(`mousedown`, window.form.onCloseErrorMsg);
+      document.addEventListener(`keydown`, window.form.onCloseErrorMsg);
     });
   };
 

@@ -249,6 +249,7 @@
     setPriceRange,
     setAvatar,
     setPhoto,
-    resetPhotos
+    resetPhotos,
+    onCloseErrorMsg
   };
 })();
