@@ -6,6 +6,7 @@
   const PICTURE_WIDTH = 70;
   const PICTURE_HEIGHT = 70;
   const IMAGE_TAG_NAME = `IMG`;
+  const DEFAULT_AVATAR_IMAGE = `img/muffin-grey.svg`;
 
   const form = document.querySelector(`.ad-form`);
   const errorButton = document.querySelector(`.error__button`);
@@ -133,6 +134,28 @@
     resetButton.addEventListener(`keydown`, onReset);
   };
 
+  const setPreview = (reader, preview) => {
+    if (preview.tagName === IMAGE_TAG_NAME) {
+      preview.src = reader.result;
+    } else {
+      const image = document.createElement(`img`);
+
+      image.src = reader.result;
+      image.width = PICTURE_WIDTH;
+      image.height = PICTURE_HEIGHT;
+
+      preview.appendChild(image);
+    }
+
+    reader.removeEventListener(`load`, () => {
+      onSetPreview(reader, preview);
+    });
+  };
+
+  const onSetPreview = (reader, preview) => {
+    setPreview(reader, preview);
+  };
+
   const loadPicture = (input, preview) => {
     const file = input.files[0];
     const fileName = file.name.toLowerCase();
@@ -145,18 +168,7 @@
       const reader = new FileReader();
 
       reader.addEventListener(`load`, () => {
-        if (preview.tagName === IMAGE_TAG_NAME) {
-          preview.src = reader.result;
-        } else {
-          const image = document.createElement(`img`);
-
-          image.src = reader.result;
-          image.alt = fileName;
-          image.width = PICTURE_WIDTH;
-          image.height = PICTURE_HEIGHT;
-
-          preview.appendChild(image);
-        }
+        onSetPreview(reader, preview);
       });
 
       reader.readAsDataURL(file);
@@ -189,6 +201,14 @@
     });
   };
 
+  const resetPhotos = () => {
+    const avatarPreview = form.querySelector(`.ad-form-header__preview img`);
+    const photoPreview = form.querySelector(`.ad-form__photo`);
+
+    avatarPreview.src = DEFAULT_AVATAR_IMAGE;
+    photoPreview.innerHTML = ``;
+  };
+
   window.form = {
     switchForm,
     toggleForm,
@@ -199,6 +219,7 @@
     clear,
     setPriceRange,
     setAvatar,
-    setPhoto
+    setPhoto,
+    resetPhotos
   };
 })();

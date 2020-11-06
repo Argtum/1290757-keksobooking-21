@@ -22,6 +22,7 @@
     window.form.setPriceRange();
     window.filter.stopChange();
     window.form.stopSubmissionHandler();
+    window.form.resetPhotos();
   };
 
   const activate = (mapPinMain) => {
