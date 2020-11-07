@@ -10,22 +10,21 @@
 
   const form = document.querySelector(`.ad-form`);
 
-  let resetButton;
+  let clearButton;
   let errorButton;
 
   const switchState = () => {
     form.classList.toggle(`ad-form--disabled`);
   };
 
-  const toggle = (switchableForm = form) => {
-    const formDisabled = switchableForm.cloneNode(true);
+  const reset = (resetForm = form) => {
+    resetForm.reset();
+  };
 
-    for (let item of formDisabled.children) {
+  const toggle = (switchableForm = form) => {
+    for (let item of switchableForm.children) {
       item.disabled = !item.disabled;
     }
-
-    switchableForm.innerHTML = null;
-    switchableForm.insertAdjacentHTML(`beforeend`, formDisabled.innerHTML);
   };
 
   const setAddress = () => {
@@ -110,26 +109,26 @@
     form.addEventListener(`submit`, onSendData);
   };
 
-  const reset = () => {
+  const restart = () => {
     window.state.deactivate();
 
-    resetButton.removeEventListener(`mousedown`, onReset);
-    resetButton.removeEventListener(`keydown`, onReset);
+    clearButton.removeEventListener(`mousedown`, onRestart);
+    clearButton.removeEventListener(`keydown`, onRestart);
   };
 
-  const onReset = (evt) => {
+  const onRestart = (evt) => {
     if (evt.type === `keydown`) {
-      window.util.enterEvent(evt, reset);
+      window.util.enterEvent(evt, restart);
     } else if (evt.type === `mousedown`) {
-      window.util.leftMouseButtonEvent(evt, reset);
+      window.util.leftMouseButtonEvent(evt, restart);
     }
   };
 
   const clear = () => {
-    resetButton = form.querySelector(`.ad-form__reset`);
+    clearButton = form.querySelector(`.ad-form__reset`);
 
-    resetButton.addEventListener(`mousedown`, onReset);
-    resetButton.addEventListener(`keydown`, onReset);
+    clearButton.addEventListener(`mousedown`, onRestart);
+    clearButton.addEventListener(`keydown`, onRestart);
   };
 
   const setPreview = (reader, preview) => {
@@ -244,6 +243,7 @@
     setAvatar,
     setPhoto,
     resetPhotos,
-    onCloseErrorMsg
+    onCloseErrorMsg,
+    reset
   };
 })();

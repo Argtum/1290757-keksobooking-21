@@ -12,9 +12,10 @@
 
     window.map.toggle();
     window.form.switchState();
+    window.form.reset();
+    window.form.reset(window.filter.getFilterElement());
     window.form.toggle();
     window.form.toggle(window.filter.getFilterElement());
-    window.validation.setNumPlaces();
     window.validation.stop();
     window.render.removePins();
     window.card.close(window.map.get());
@@ -34,6 +35,7 @@
     window.form.toggle();
     window.form.toggle(window.filter.getFilterElement());
     window.form.setAddress();
+    window.validation.setNumPlaces();
     window.validation.start();
     window.render.renderData();
     window.filter.change();

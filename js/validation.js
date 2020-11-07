@@ -27,18 +27,13 @@
 
   const setNumPlaces = (value = DEFAULT_NUMBER_OF_PLACES) => {
     const capacity = document.querySelector(`#capacity`);
-    const capacityFiltered = capacity.cloneNode(true);
 
-    for (let i = capacityFiltered.children.length - 1; i >= 0; i--) {
-      if (value === MAX_ROOMS) {
-        capacityFiltered.children[i].disabled = capacityFiltered.children[i].value !== PLACES_NOT_FOR_GUESTS;
-      } else {
-        capacityFiltered.children[i].disabled = capacityFiltered.children[i].value > value || capacityFiltered.children[i].value === PLACES_NOT_FOR_GUESTS;
-      }
+    for (let i = capacity.children.length - 1; i >= 0; i--) {
+      capacity.children[i].disabled = value === MAX_ROOMS
+        ? capacity.children[i].value !== PLACES_NOT_FOR_GUESTS
+        : capacity.children[i].value > value || capacity.children[i].value === PLACES_NOT_FOR_GUESTS;
     }
 
-    capacity.innerHTML = null;
-    capacity.insertAdjacentHTML(`beforeend`, capacityFiltered.innerHTML);
     capacity.value = value !== MAX_ROOMS ? value : PLACES_NOT_FOR_GUESTS;
   };
 
