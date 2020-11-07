@@ -4,21 +4,21 @@
   const ENTER_BUTTON_KYE = `Enter`;
   const ESCAPE_BUTTON_KYE = `Escape`;
 
-  const isEnterEvent = (evt, action) => {
+  const enterEvent = (evt, action) => {
     if (evt.key === ENTER_BUTTON_KYE) {
       evt.preventDefault();
       action(evt);
     }
   };
 
-  const isEscapeEvent = (evt, action) => {
+  const escapeEvent = (evt, action) => {
     if (evt.key === ESCAPE_BUTTON_KYE) {
       evt.preventDefault();
       action();
     }
   };
 
-  const isLeftMouseButtonEvent = (evt, action) => {
+  const leftMouseButtonEvent = (evt, action) => {
     if (evt.button === 0) {
       evt.preventDefault();
       action(evt);
@@ -26,8 +26,8 @@
   };
 
   window.util = {
-    isEnterEvent,
-    isLeftMouseButtonEvent,
-    isEscapeEvent
+    enterEvent,
+    leftMouseButtonEvent,
+    escapeEvent
   };
 })();

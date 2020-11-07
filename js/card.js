@@ -73,11 +73,11 @@
   const onCardOpen = (evt, map) => {
     if (evt.target.closest(`.map__pin`) && !evt.target.closest(`.map__pin--main`)) {
       if (evt.type === `keydown`) {
-        window.util.isEnterEvent(evt, () => {
+        window.util.enterEvent(evt, () => {
           openCard(evt, map);
         });
       } else if (evt.type === `mousedown`) {
-        window.util.isLeftMouseButtonEvent(evt, () => {
+        window.util.leftMouseButtonEvent(evt, () => {
           openCard(evt, map);
         });
       }
@@ -86,11 +86,11 @@
 
   const onCardClose = (evt, map) => {
     if (evt.type === `keydown`) {
-      window.util.isEscapeEvent(evt, () => {
+      window.util.escapeEvent(evt, () => {
         close(map);
       });
     } else if (evt.type === `mousedown` && evt.target.className === `popup__close`) {
-      window.util.isLeftMouseButtonEvent(evt, () => {
+      window.util.leftMouseButtonEvent(evt, () => {
         close(map);
       });
     }

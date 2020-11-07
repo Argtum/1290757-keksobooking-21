@@ -36,12 +36,16 @@
     })[0][key][value];
   };
 
+  const loadWithError = (msg) => {
+    window.render.renderCustomErrorMessage(msg);
+
+    document.addEventListener(`mousedown`, window.form.onCloseErrorMsg);
+    document.addEventListener(`keydown`, window.form.onCloseErrorMsg);
+  };
+
   const getData = (onSuccess) => {
     window.network.loadData(onSuccess, (msg) => {
-      window.render.renderCustomErrorMessage(msg);
-
-      document.addEventListener(`mousedown`, window.form.onCloseErrorMsg);
-      document.addEventListener(`keydown`, window.form.onCloseErrorMsg);
+      loadWithError(msg);
     });
   };
 

@@ -57,12 +57,12 @@
   const onErrorCardClose = (evt) => {
     if (evt.type === `keydown`) {
       if (evt.target.classList.contains(`error__button`)) {
-        window.util.isEnterEvent(evt, removeErrorMessage);
+        window.util.enterEvent(evt, removeErrorMessage);
       } else {
-        window.util.isEscapeEvent(evt, removeErrorMessage);
+        window.util.escapeEvent(evt, removeErrorMessage);
       }
     } else if (evt.type === `mousedown`) {
-      window.util.isLeftMouseButtonEvent(evt, removeErrorMessage);
+      window.util.leftMouseButtonEvent(evt, removeErrorMessage);
     }
   };
 
@@ -87,9 +87,9 @@
 
   const onSuccessCardClose = (evt) => {
     if (evt.type === `keydown`) {
-      window.util.isEscapeEvent(evt, removeSuccessMessage);
+      window.util.escapeEvent(evt, removeSuccessMessage);
     } else if (evt.type === `mousedown`) {
-      window.util.isLeftMouseButtonEvent(evt, removeSuccessMessage);
+      window.util.leftMouseButtonEvent(evt, removeSuccessMessage);
     }
   };
 
@@ -124,9 +124,9 @@
 
   const onReset = (evt) => {
     if (evt.type === `keydown`) {
-      window.util.isEnterEvent(evt, reset);
+      window.util.enterEvent(evt, reset);
     } else if (evt.type === `mousedown`) {
-      window.util.isLeftMouseButtonEvent(evt, reset);
+      window.util.leftMouseButtonEvent(evt, reset);
     }
   };
 
@@ -170,9 +170,9 @@
 
   const onCloseErrorMsg = (evt) => {
     if (evt.type === `keydown`) {
-      window.util.isEscapeEvent(evt, closeErrorMsg);
+      window.util.escapeEvent(evt, closeErrorMsg);
     } else if (evt.type === `mousedown`) {
-      window.util.isLeftMouseButtonEvent(evt, closeErrorMsg);
+      window.util.leftMouseButtonEvent(evt, closeErrorMsg);
     }
   };
 
@@ -196,8 +196,8 @@
       } else {
         throw new Error(`Загружать можно только картинки, следующих форматов: gif, jpg, jpeg, png`);
       }
-    } catch (e) {
-      window.render.renderCustomErrorMessage(e.message);
+    } catch (err) {
+      window.render.renderCustomErrorMessage(err.message);
 
       document.addEventListener(`mousedown`, onCloseErrorMsg);
       document.addEventListener(`keydown`, onCloseErrorMsg);

@@ -46,11 +46,11 @@
 
   const onActivation = (evt, mapPinMain) => {
     if (evt.type === `keydown`) {
-      window.util.isEnterEvent(evt, () => {
+      window.util.enterEvent(evt, () => {
         activate(mapPinMain);
       });
     } else if (evt.type === `mousedown`) {
-      window.util.isLeftMouseButtonEvent(evt, () => {
+      window.util.leftMouseButtonEvent(evt, () => {
         activate(mapPinMain);
       });
     }
