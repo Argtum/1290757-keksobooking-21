@@ -12,6 +12,8 @@
 
   let clearButton;
   let errorButton;
+  let avatarPreview;
+  let photoPreview;
 
   const switchState = () => {
     form.classList.toggle(`ad-form--disabled`);
@@ -137,6 +139,7 @@
     } else {
       const image = document.createElement(`img`);
 
+      preview.innerHTML = ``;
       image.src = reader.result;
       image.width = PICTURE_WIDTH;
       image.height = PICTURE_HEIGHT;
@@ -198,36 +201,33 @@
     }
   };
 
-  const onLoadAvatar = (input, preview) => {
-    loadPicture(input, preview);
+  const onLoadAvatar = (input) => {
+    loadPicture(input, avatarPreview);
   };
 
-  const onLoadPhoto = (input, preview) => {
-    loadPicture(input, preview);
+  const onLoadPhoto = (input) => {
+    loadPicture(input, photoPreview);
   };
 
   const setAvatar = () => {
     const avatarInput = form.querySelector(`.ad-form-header__input`);
-    const avatarPreview = form.querySelector(`.ad-form-header__preview img`);
+    avatarPreview = form.querySelector(`.ad-form-header__preview img`);
 
     avatarInput.addEventListener(`change`, () => {
-      onLoadAvatar(avatarInput, avatarPreview);
+      onLoadAvatar(avatarInput);
     });
   };
 
   const setPhoto = () => {
     const photoInput = form.querySelector(`.ad-form__input`);
-    const photoPreview = form.querySelector(`.ad-form__photo`);
+    photoPreview = form.querySelector(`.ad-form__photo`);
 
     photoInput.addEventListener(`change`, () => {
-      onLoadPhoto(photoInput, photoPreview);
+      onLoadPhoto(photoInput);
     });
   };
 
   const resetPhotos = () => {
-    const avatarPreview = form.querySelector(`.ad-form-header__preview img`);
-    const photoPreview = form.querySelector(`.ad-form__photo`);
-
     avatarPreview.src = DEFAULT_AVATAR_IMAGE;
     photoPreview.innerHTML = ``;
   };
