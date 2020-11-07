@@ -11,8 +11,9 @@
     isActively = false;
 
     window.map.toggle();
-    window.form.switchForm();
-    window.form.toggleForms();
+    window.form.switchState();
+    window.form.toggle();
+    window.form.toggle(window.filter.getFilterElement());
     window.validation.setNumPlaces();
     window.validation.stop();
     window.render.removePins();
@@ -29,8 +30,9 @@
     isActively = true;
 
     window.map.toggle();
-    window.form.switchForm();
-    window.form.toggleForms();
+    window.form.switchState();
+    window.form.toggle();
+    window.form.toggle(window.filter.getFilterElement());
     window.form.setAddress();
     window.validation.start();
     window.render.renderData();

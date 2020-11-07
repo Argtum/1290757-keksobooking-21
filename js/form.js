@@ -13,16 +13,11 @@
   let resetButton;
   let errorButton;
 
-  const switchForm = () => {
+  const switchState = () => {
     form.classList.toggle(`ad-form--disabled`);
   };
 
-  const toggleForms = () => {
-    window.form.toggleForm(form);
-    window.form.toggleForm(window.filter.getFilterElement());
-  };
-
-  const toggleForm = (switchableForm) => {
+  const toggle = (switchableForm = form) => {
     const formDisabled = switchableForm.cloneNode(true);
 
     for (let item of formDisabled.children) {
@@ -239,10 +234,9 @@
   };
 
   window.form = {
-    switchForm,
-    toggleForm,
+    switchState,
+    toggle,
     setAddress,
-    toggleForms,
     submissionHandler,
     stopSubmissionHandler,
     clear,
