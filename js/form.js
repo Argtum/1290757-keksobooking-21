@@ -14,6 +14,8 @@
   let errorButton;
   let avatarPreview;
   let photoPreview;
+  let avatarInput;
+  let photoInput;
 
   const switchState = () => {
     form.classList.toggle(`ad-form--disabled`);
@@ -201,35 +203,34 @@
     }
   };
 
-  const onAvatarLoad = (input) => {
-    loadPicture(input, avatarPreview);
+  const onAvatarLoad = () => {
+    loadPicture(avatarInput, avatarPreview);
   };
 
-  const onPhotoLoad = (input) => {
-    loadPicture(input, photoPreview);
+  const onPhotoLoad = () => {
+    loadPicture(photoInput, photoPreview);
   };
 
   const setAvatar = () => {
-    const avatarInput = form.querySelector(`.ad-form-header__input`);
+    avatarInput = form.querySelector(`.ad-form-header__input`);
     avatarPreview = form.querySelector(`.ad-form-header__preview img`);
 
-    avatarInput.addEventListener(`change`, () => {
-      onAvatarLoad(avatarInput);
-    });
+    avatarInput.addEventListener(`change`, onAvatarLoad);
   };
 
   const setPhoto = () => {
-    const photoInput = form.querySelector(`.ad-form__input`);
+    photoInput = form.querySelector(`.ad-form__input`);
     photoPreview = form.querySelector(`.ad-form__photo`);
 
-    photoInput.addEventListener(`change`, () => {
-      onPhotoLoad(photoInput);
-    });
+    photoInput.addEventListener(`change`, onPhotoLoad);
   };
 
   const resetPhotos = () => {
     avatarPreview.src = DEFAULT_AVATAR_IMAGE;
     photoPreview.textContent = ``;
+
+    avatarInput.removeEventListener(`change`, onAvatarLoad);
+    photoInput.removeEventListener(`change`, onPhotoLoad);
   };
 
   window.form = {
