@@ -11,8 +11,8 @@
 
   const removeXhrListener = (xhr) => {
     xhr.removeEventListener(`load`, onXhrLoad);
-    xhr.removeEventListener(`error`, onXhrError);
-    xhr.removeEventListener(`timeout`, onXhrTimeout);
+    xhr.removeEventListener(`error`, onXhrErrorCatch);
+    xhr.removeEventListener(`timeout`, onXhrTimeoutCatch);
   };
 
   const onXhrLoad = (xhr, onSuccess, onError) => {
@@ -31,13 +31,13 @@
     removeXhrListener(xhr);
   };
 
-  const onXhrTimeout = (xhr, onError) => {
+  const onXhrTimeoutCatch = (xhr, onError) => {
     onError(`Запрос не успел выполниться за ${xhr.timeout} мс`);
 
     removeXhrListener(xhr);
   };
 
-  const onXhrError = (xhr, onError) => {
+  const onXhrErrorCatch = (xhr, onError) => {
     onError(`Произошла ошибка соединения`);
 
     removeXhrListener(xhr);
@@ -54,11 +54,11 @@
     });
 
     xhr.addEventListener(`error`, () => {
-      onXhrError(xhr, onError);
+      onXhrErrorCatch(xhr, onError);
     });
 
     xhr.addEventListener(`timeout`, () => {
-      onXhrTimeout(xhr, onError);
+      onXhrTimeoutCatch(xhr, onError);
     });
 
     xhr.open(`POST`, URL_UPLOAD);
@@ -76,11 +76,11 @@
     });
 
     xhr.addEventListener(`error`, () => {
-      onXhrError(xhr, onError);
+      onXhrErrorCatch(xhr, onError);
     });
 
     xhr.addEventListener(`timeout`, () => {
-      onXhrTimeout(xhr, onError);
+      onXhrTimeoutCatch(xhr, onError);
     });
 
     xhr.open(`GET`, URL_LOAD);

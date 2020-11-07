@@ -37,15 +37,15 @@
     capacity.value = value !== MAX_ROOMS ? value : PLACES_NOT_FOR_GUESTS;
   };
 
-  const onSetPriceMinRange = (evt) => {
+  const onPriceMinRangeSet = (evt) => {
     setPriceMinRange(evt.target.value);
   };
 
-  const onSetTime = (evt) => {
+  const onTimeSet = (evt) => {
     setTime(evt.target.value, evt.target.id);
   };
 
-  const onSetNumPlaces = (evt) => {
+  const onNumPlacesSet = (evt) => {
     setNumPlaces(evt.target.value);
   };
 
@@ -55,17 +55,17 @@
     timeout = document.querySelector(`#timeout`);
     roomNumber = document.querySelector(`#room_number`);
 
-    type.addEventListener(`input`, onSetPriceMinRange);
-    timein.addEventListener(`input`, onSetTime);
-    timeout.addEventListener(`input`, onSetTime);
-    roomNumber.addEventListener(`input`, onSetNumPlaces);
+    type.addEventListener(`input`, onPriceMinRangeSet);
+    timein.addEventListener(`input`, onTimeSet);
+    timeout.addEventListener(`input`, onTimeSet);
+    roomNumber.addEventListener(`input`, onNumPlacesSet);
   };
 
   const stop = () => {
-    type.removeEventListener(`input`, onSetPriceMinRange);
-    timein.removeEventListener(`input`, onSetTime);
-    timeout.removeEventListener(`input`, onSetTime);
-    roomNumber.removeEventListener(`input`, onSetNumPlaces);
+    type.removeEventListener(`input`, onPriceMinRangeSet);
+    timein.removeEventListener(`input`, onTimeSet);
+    timeout.removeEventListener(`input`, onTimeSet);
+    roomNumber.removeEventListener(`input`, onNumPlacesSet);
   };
 
   window.validation = {

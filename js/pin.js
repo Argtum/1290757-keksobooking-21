@@ -23,15 +23,16 @@
 
   const initApp = () => {
     mapPinMain.addEventListener(`mousedown`, (evt) => {
-      if (!window.state.isActiveState()) {
-        window.state.onActivation(evt, mapPinMain);
+      if (!window.state.isActive()) {
+        window.state.onAppActivation(evt, mapPinMain);
       }
-      onMoveMainMapPin(evt);
+
+      onMove(evt);
     });
 
     mapPinMain.addEventListener(`keydown`, (evt) => {
-      if (!window.state.isActiveState()) {
-        window.state.onActivation(evt, mapPinMain);
+      if (!window.state.isActive()) {
+        window.state.onAppActivation(evt, mapPinMain);
       }
     });
   };
@@ -56,7 +57,7 @@
     const activePinHeight = parseInt(getComputedStyle(mapPinMain, `:after`).height, DECIMAL_BASE);
 
     coordinateX = Math.floor(pinOffsetX + (pinWidth / 2));
-    coordinateY = window.map.checkMapActivity()
+    coordinateY = window.map.checkActivity()
       ? Math.floor(pinOffsetY + pinHeight + activePinHeight)
       : Math.floor(pinOffsetY + (pinHeight / 2));
   };
@@ -67,7 +68,7 @@
     return `${coordinateX}, ${coordinateY}`;
   };
 
-  const onMoveMainMapPin = (evt) => {
+  const onMove = (evt) => {
     let startCoords = {
       x: evt.clientX,
       y: evt.clientY
@@ -117,7 +118,6 @@
     initApp,
     create,
     getCoordinate,
-    onMoveMainMapPin,
     resetPosition
   };
 })();

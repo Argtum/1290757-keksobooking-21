@@ -39,8 +39,8 @@
   const loadWithError = (msg) => {
     window.render.renderCustomErrorMessage(msg);
 
-    document.addEventListener(`mousedown`, window.form.onCloseErrorMsg);
-    document.addEventListener(`keydown`, window.form.onCloseErrorMsg);
+    document.addEventListener(`mousedown`, window.form.onErrorMsgClose);
+    document.addEventListener(`keydown`, window.form.onErrorMsgClose);
   };
 
   const getData = (onSuccess) => {

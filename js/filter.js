@@ -19,7 +19,7 @@
     return data.slice(0, QUANTITY);
   };
 
-  const getFilterElement = () => {
+  const getElement = () => {
     return form;
   };
 
@@ -64,7 +64,7 @@
     window.render.renderMapPins(limitQuantity(filteredPins));
   };
 
-  const onChange = () => {
+  const onFilterChange = () => {
     if (lastTimeout) {
       window.clearTimeout(lastTimeout);
     }
@@ -74,15 +74,15 @@
   };
 
   const stopChange = () => {
-    form.removeEventListener(`change`, onChange);
+    form.removeEventListener(`change`, onFilterChange);
   };
 
   const change = () => {
-    form.addEventListener(`change`, onChange);
+    form.addEventListener(`change`, onFilterChange);
   };
 
   window.filter = {
-    getFilterElement,
+    getElement,
     limitQuantity,
     change,
     stopChange

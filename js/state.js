@@ -3,7 +3,7 @@
 (function () {
   let isActively = false;
 
-  const isActiveState = () => {
+  const isActive = () => {
     return isActively;
   };
 
@@ -13,9 +13,9 @@
     window.map.toggle();
     window.form.switchState();
     window.form.reset();
-    window.form.reset(window.filter.getFilterElement());
+    window.form.reset(window.filter.getElement());
     window.form.toggle();
-    window.form.toggle(window.filter.getFilterElement());
+    window.form.toggle(window.filter.getElement());
     window.validation.stop();
     window.render.removePins();
     window.card.close(window.map.get());
@@ -23,7 +23,7 @@
     window.form.setAddress();
     window.form.setPriceRange();
     window.filter.stopChange();
-    window.form.stopSubmissionHandler();
+    window.form.stopHandling();
     window.form.resetPhotos();
   };
 
@@ -33,7 +33,7 @@
     window.map.toggle();
     window.form.switchState();
     window.form.toggle();
-    window.form.toggle(window.filter.getFilterElement());
+    window.form.toggle(window.filter.getElement());
     window.form.setAddress();
     window.validation.setNumPlaces();
     window.validation.start();
@@ -42,19 +42,19 @@
     window.form.clear();
     window.form.setAvatar();
     window.form.setPhoto();
-    window.form.submissionHandler();
+    window.form.startHandling();
 
-    mapPinMain.removeEventListener(`mousedown`, onActivation);
-    mapPinMain.removeEventListener(`keydown`, onActivation);
+    mapPinMain.removeEventListener(`mousedown`, onAppActivation);
+    mapPinMain.removeEventListener(`keydown`, onAppActivation);
   };
 
-  const onActivation = (evt, mapPinMain) => {
+  const onAppActivation = (evt, mapPinMain) => {
     if (evt.type === `keydown`) {
-      window.util.enterEvent(evt, () => {
+      window.util.pressEnter(evt, () => {
         activate(mapPinMain);
       });
     } else if (evt.type === `mousedown`) {
-      window.util.leftMouseButtonEvent(evt, () => {
+      window.util.pressLeftMouseButton(evt, () => {
         activate(mapPinMain);
       });
     }
@@ -62,7 +62,7 @@
 
   window.state = {
     deactivate,
-    onActivation,
-    isActiveState
+    onAppActivation,
+    isActive
   };
 })();

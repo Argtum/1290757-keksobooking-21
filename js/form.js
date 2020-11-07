@@ -53,12 +53,12 @@
   const onErrorCardClose = (evt) => {
     if (evt.type === `keydown`) {
       if (evt.target.classList.contains(`error__button`)) {
-        window.util.enterEvent(evt, removeErrorMessage);
+        window.util.pressEnter(evt, removeErrorMessage);
       } else {
-        window.util.escapeEvent(evt, removeErrorMessage);
+        window.util.pressEscape(evt, removeErrorMessage);
       }
     } else if (evt.type === `mousedown`) {
-      window.util.leftMouseButtonEvent(evt, removeErrorMessage);
+      window.util.pressLeftMouseButton(evt, removeErrorMessage);
     }
   };
 
@@ -83,9 +83,9 @@
 
   const onSuccessCardClose = (evt) => {
     if (evt.type === `keydown`) {
-      window.util.escapeEvent(evt, removeSuccessMessage);
+      window.util.pressEscape(evt, removeSuccessMessage);
     } else if (evt.type === `mousedown`) {
-      window.util.leftMouseButtonEvent(evt, removeSuccessMessage);
+      window.util.pressLeftMouseButton(evt, removeSuccessMessage);
     }
   };
 
@@ -97,40 +97,40 @@
     document.addEventListener(`keydown`, onSuccessCardClose);
   };
 
-  const onSendData = (evt) => {
+  const onDataSend = (evt) => {
     evt.preventDefault();
 
     window.network.uploadFormData(new FormData(form), sentSuccessfully, sentWithError);
   };
 
-  const submissionHandler = () => {
-    form.addEventListener(`submit`, onSendData);
+  const startHandling = () => {
+    form.addEventListener(`submit`, onDataSend);
   };
 
-  const stopSubmissionHandler = () => {
-    form.addEventListener(`submit`, onSendData);
+  const stopHandling = () => {
+    form.addEventListener(`submit`, onDataSend);
   };
 
-  const restart = () => {
+  const restartApp = () => {
     window.state.deactivate();
 
-    clearButton.removeEventListener(`mousedown`, onRestart);
-    clearButton.removeEventListener(`keydown`, onRestart);
+    clearButton.removeEventListener(`mousedown`, onAppRestart);
+    clearButton.removeEventListener(`keydown`, onAppRestart);
   };
 
-  const onRestart = (evt) => {
+  const onAppRestart = (evt) => {
     if (evt.type === `keydown`) {
-      window.util.enterEvent(evt, restart);
+      window.util.pressEnter(evt, restartApp);
     } else if (evt.type === `mousedown`) {
-      window.util.leftMouseButtonEvent(evt, restart);
+      window.util.pressLeftMouseButton(evt, restartApp);
     }
   };
 
   const clear = () => {
     clearButton = form.querySelector(`.ad-form__reset`);
 
-    clearButton.addEventListener(`mousedown`, onRestart);
-    clearButton.addEventListener(`keydown`, onRestart);
+    clearButton.addEventListener(`mousedown`, onAppRestart);
+    clearButton.addEventListener(`keydown`, onAppRestart);
   };
 
   const setPreview = (reader, preview) => {
@@ -148,11 +148,11 @@
     }
 
     reader.removeEventListener(`load`, () => {
-      onSetPreview(reader, preview);
+      onPreviewSet(reader, preview);
     });
   };
 
-  const onSetPreview = (reader, preview) => {
+  const onPreviewSet = (reader, preview) => {
     setPreview(reader, preview);
   };
 
@@ -161,15 +161,15 @@
 
     window.render.removeMessage(errorMessage);
 
-    document.removeEventListener(`mousedown`, onCloseErrorMsg);
-    document.removeEventListener(`keydown`, onCloseErrorMsg);
+    document.removeEventListener(`mousedown`, onErrorMsgClose);
+    document.removeEventListener(`keydown`, onErrorMsgClose);
   };
 
-  const onCloseErrorMsg = (evt) => {
+  const onErrorMsgClose = (evt) => {
     if (evt.type === `keydown`) {
-      window.util.escapeEvent(evt, closeErrorMsg);
+      window.util.pressEscape(evt, closeErrorMsg);
     } else if (evt.type === `mousedown`) {
-      window.util.leftMouseButtonEvent(evt, closeErrorMsg);
+      window.util.pressLeftMouseButton(evt, closeErrorMsg);
     }
   };
 
@@ -186,7 +186,7 @@
         const reader = new FileReader();
 
         reader.addEventListener(`load`, () => {
-          onSetPreview(reader, preview);
+          onPreviewSet(reader, preview);
         });
 
         reader.readAsDataURL(file);
@@ -196,16 +196,16 @@
     } catch (err) {
       window.render.renderCustomErrorMessage(err.message);
 
-      document.addEventListener(`mousedown`, onCloseErrorMsg);
-      document.addEventListener(`keydown`, onCloseErrorMsg);
+      document.addEventListener(`mousedown`, onErrorMsgClose);
+      document.addEventListener(`keydown`, onErrorMsgClose);
     }
   };
 
-  const onLoadAvatar = (input) => {
+  const onAvatarLoad = (input) => {
     loadPicture(input, avatarPreview);
   };
 
-  const onLoadPhoto = (input) => {
+  const onPhotoLoad = (input) => {
     loadPicture(input, photoPreview);
   };
 
@@ -214,7 +214,7 @@
     avatarPreview = form.querySelector(`.ad-form-header__preview img`);
 
     avatarInput.addEventListener(`change`, () => {
-      onLoadAvatar(avatarInput);
+      onAvatarLoad(avatarInput);
     });
   };
 
@@ -223,7 +223,7 @@
     photoPreview = form.querySelector(`.ad-form__photo`);
 
     photoInput.addEventListener(`change`, () => {
-      onLoadPhoto(photoInput);
+      onPhotoLoad(photoInput);
     });
   };
 
@@ -236,14 +236,14 @@
     switchState,
     toggle,
     setAddress,
-    submissionHandler,
-    stopSubmissionHandler,
+    startHandling,
+    stopHandling,
     clear,
     setPriceRange,
     setAvatar,
     setPhoto,
     resetPhotos,
-    onCloseErrorMsg,
+    onErrorMsgClose,
     reset
   };
 })();
