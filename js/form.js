@@ -229,7 +229,7 @@
 
   const resetPhotos = () => {
     avatarPreview.src = DEFAULT_AVATAR_IMAGE;
-    photoPreview.innerHTML = ``;
+    photoPreview.textContent = ``;
   };
 
   window.form = {
