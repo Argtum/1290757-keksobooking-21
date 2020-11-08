@@ -3,21 +3,6 @@
 (function () {
   const map = document.querySelector(`.map`);
 
-  const click = () => {
-    map.addEventListener(`mousedown`, (evt) => {
-      window.card.onCardOpen(evt, map);
-      window.card.onCardClose(evt, map);
-    });
-
-    map.addEventListener(`keydown`, (evt) => {
-      window.card.onCardOpen(evt, map);
-    });
-
-    document.addEventListener(`keydown`, (evt) => {
-      window.card.onCardClose(evt, map);
-    });
-  };
-
   const get = () => {
     return map;
   };
@@ -31,7 +16,6 @@
   };
 
   window.map = {
-    click,
     get,
     toggle,
     checkActivity

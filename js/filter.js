@@ -60,7 +60,7 @@
         && (filterConditioner.checked && item.offer.features.includes(filterConditioner.value) || !filterConditioner.checked);
     });
 
-    window.card.close(window.map.get());
+    window.card.close();
     window.render.renderMapPins(limitQuantity(filteredPins));
   };
 

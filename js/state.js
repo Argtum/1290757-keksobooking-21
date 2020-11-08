@@ -18,13 +18,14 @@
     window.form.toggle(window.filter.getElement());
     window.validation.stop();
     window.render.removePins();
-    window.card.close(window.map.get());
+    window.card.close();
     window.pin.resetPosition();
     window.form.setAddress();
     window.form.setPriceRange();
     window.filter.stopChange();
     window.form.stopHandling();
     window.form.resetPhotos();
+    window.card.stopClickOnMapHandler();
   };
 
   const activate = (mapPinMain) => {
@@ -43,6 +44,7 @@
     window.form.setAvatar();
     window.form.setPhoto();
     window.form.startHandling();
+    window.card.clickOnMapHandler();
 
     mapPinMain.removeEventListener(`mousedown`, onAppActivation);
     mapPinMain.removeEventListener(`keydown`, onAppActivation);

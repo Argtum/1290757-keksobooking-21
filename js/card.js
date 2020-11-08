@@ -1,6 +1,9 @@
 'use strict';
 
 (function () {
+  const map = window.map.get();
+  let closeCardButton;
+
   const createFeaturesList = (features, cardItem) => {
     const featuresList = cardItem.querySelector(`.popup__features`);
     const newList = featuresList.cloneNode();
@@ -48,10 +51,14 @@
     return cardItem;
   };
 
-  const close = (map) => {
+  const close = () => {
     const card = map.querySelector(`.map__card`);
 
     if (card) {
+      closeCardButton.removeEventListener(`mousedown`, onCardClose);
+      closeCardButton.removeEventListener(`keydown`, onCardClose);
+      document.removeEventListener(`keydown`, onCardClose);
+
       map.removeChild(card);
     }
   };
@@ -64,42 +71,58 @@
     });
   };
 
-  const openCard = (evt, map) => {
-    close(map);
+  const openCard = (evt) => {
+    close();
 
     window.render.renderCard(getCardData(evt.target)[0], map);
+
+    closeCardButton = document.querySelector(`.popup__close`);
+
+    closeCardButton.addEventListener(`mousedown`, onCardClose);
+    closeCardButton.addEventListener(`keydown`, onCardClose);
+    document.addEventListener(`keydown`, onCardClose);
   };
 
-  const onCardOpen = (evt, map) => {
+  const onCardOpen = (evt) => {
     if (evt.target.closest(`.map__pin`) && !evt.target.closest(`.map__pin--main`)) {
       if (evt.type === `keydown`) {
         window.util.pressEnter(evt, () => {
-          openCard(evt, map);
+          openCard(evt);
         });
       } else if (evt.type === `mousedown`) {
         window.util.pressLeftMouseButton(evt, () => {
-          openCard(evt, map);
+          openCard(evt);
         });
       }
     }
   };
 
-  const onCardClose = (evt, map) => {
+  const onCardClose = (evt) => {
     if (evt.type === `keydown`) {
-      window.util.pressEscape(evt, () => {
-        close(map);
-      });
-    } else if (evt.type === `mousedown` && evt.target.className === `popup__close`) {
-      window.util.pressLeftMouseButton(evt, () => {
-        close(map);
-      });
+      if (evt.target.className === `popup__close`) {
+        window.util.pressEnter(evt, close);
+      } else {
+        window.util.pressEscape(evt, close);
+      }
+    } else if (evt.type === `mousedown`) {
+      window.util.pressLeftMouseButton(evt, close);
     }
   };
 
+  const stopClickOnMapHandler = () => {
+    map.removeEventListener(`mousedown`, onCardOpen);
+    map.removeEventListener(`keydown`, onCardOpen);
+  };
+
+  const clickOnMapHandler = () => {
+    map.addEventListener(`mousedown`, onCardOpen);
+    map.addEventListener(`keydown`, onCardOpen);
+  };
+
   window.card = {
+    clickOnMapHandler,
+    stopClickOnMapHandler,
     create,
     close,
-    onCardOpen,
-    onCardClose
   };
 })();
