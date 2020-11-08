@@ -60,6 +60,7 @@
       document.removeEventListener(`keydown`, onCardClose);
 
       map.removeChild(card);
+      window.pin.deactivate();
     }
   };
 
@@ -74,6 +75,7 @@
   const openCard = (evt) => {
     close();
 
+    window.pin.activate(evt.target);
     window.render.renderCard(getCardData(evt.target)[0], map);
 
     closeCardButton = document.querySelector(`.popup__close`);

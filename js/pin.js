@@ -114,10 +114,26 @@
     document.addEventListener(`mouseup`, onMouseUp);
   };
 
+  const activate = (pin) => {
+    if (pin.classList.contains(`map__pin`)) {
+      pin.classList.add(`map__pin--active`);
+    } else {
+      pin.parentElement.classList.add(`map__pin--active`);
+    }
+  };
+
+  const deactivate = () => {
+    const activePin = document.querySelector(`.map__pin--active`);
+
+    activePin.classList.remove(`map__pin--active`);
+  };
+
   window.pin = {
     initApp,
     create,
     getCoordinate,
-    resetPosition
+    resetPosition,
+    activate,
+    deactivate
   };
 })();
