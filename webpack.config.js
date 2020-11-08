@@ -9,7 +9,7 @@ module.exports = {
     "./js/state.js",
     "./js/pin.js",
     "./js/validation.js",
-    "./js/render.js",
+    "./js/view.js",
     "./js/filter.js",
     "./js/network.js",
     "./js/form.js",

@@ -17,7 +17,7 @@
     window.form.toggle();
     window.form.toggle(window.filter.getElement());
     window.validation.stop();
-    window.render.removePins();
+    window.view.removePins();
     window.card.close();
     window.pin.resetPosition();
     window.form.setAddress();
@@ -38,7 +38,7 @@
     window.form.setAddress();
     window.validation.setNumPlaces();
     window.validation.start();
-    window.render.renderData();
+    window.view.renderData();
     window.filter.change();
     window.form.clear();
     window.form.setAvatar();

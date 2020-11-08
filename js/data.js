@@ -28,7 +28,7 @@
     }
   ];
 
-  let adsData;
+  let ads;
 
   const getTypeValue = (key, value) => {
     return TYPES.filter((item) => {
@@ -37,13 +37,13 @@
   };
 
   const loadWithError = (msg) => {
-    window.render.renderCustomErrorMessage(msg);
+    window.view.renderCustomErrorMessage(msg);
 
     document.addEventListener(`mousedown`, window.form.onErrorMsgClose);
     document.addEventListener(`keydown`, window.form.onErrorMsgClose);
   };
 
-  const getData = (onSuccess) => {
+  const get = (onSuccess) => {
     window.network.loadData(onSuccess, (msg) => {
       loadWithError(msg);
     });
@@ -51,7 +51,7 @@
 
   window.data = {
     getTypeValue,
-    getData,
-    adsData
+    get,
+    ads
   };
 })();

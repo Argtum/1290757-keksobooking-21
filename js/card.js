@@ -67,7 +67,7 @@
   const getCardData = (target) => {
     const name = target.alt ? target.alt : target.querySelector(`img`).alt;
 
-    return window.data.adsData.filter((item) => {
+    return window.data.ads.filter((item) => {
       return item.offer.title === name;
     });
   };
@@ -76,7 +76,7 @@
     close();
 
     window.pin.activate(evt.target);
-    window.render.renderCard(getCardData(evt.target)[0], map);
+    window.view.renderCard(getCardData(evt.target)[0], map);
 
     closeCardButton = document.querySelector(`.popup__close`);
 

@@ -13,7 +13,7 @@
     }
   };
 
-  const renderMapPins = (data) => {
+  const renderPins = (data) => {
     const fragment = document.createDocumentFragment();
 
     data.forEach((pinData) => {
@@ -39,9 +39,9 @@
   };
 
   const renderData = () => {
-    window.data.getData((data) => {
-      window.data.adsData = data;
-      renderMapPins(window.filter.limitQuantity());
+    window.data.get((data) => {
+      window.data.ads = data;
+      renderPins(window.filter.limitQuantity());
     });
   };
 
@@ -79,10 +79,10 @@
     main.removeChild(msg);
   };
 
-  window.render = {
+  window.view = {
     renderData,
     renderCard,
-    renderMapPins,
+    renderPins,
     removePins,
     renderSuccessMessage,
     renderErrorMessage,

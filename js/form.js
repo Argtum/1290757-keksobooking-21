@@ -45,7 +45,7 @@
   const removeErrorMessage = () => {
     const errorMessage = document.querySelector(`.error`);
 
-    window.render.removeMessage(errorMessage);
+    window.view.removeMessage(errorMessage);
 
     document.removeEventListener(`mousedown`, onErrorCardClose);
     errorButton.removeEventListener(`keydown`, onErrorCardClose);
@@ -65,7 +65,7 @@
   };
 
   const sentWithError = () => {
-    window.render.renderErrorMessage();
+    window.view.renderErrorMessage();
 
     errorButton = document.querySelector(`.error__button`);
 
@@ -77,7 +77,7 @@
   const removeSuccessMessage = () => {
     const successMessage = document.querySelector(`.success`);
 
-    window.render.removeMessage(successMessage);
+    window.view.removeMessage(successMessage);
 
     document.removeEventListener(`mousedown`, onSuccessCardClose);
     document.removeEventListener(`keydown`, onSuccessCardClose);
@@ -93,7 +93,7 @@
 
   const sentSuccessfully = () => {
     window.state.deactivate();
-    window.render.renderSuccessMessage();
+    window.view.renderSuccessMessage();
 
     document.addEventListener(`mousedown`, onSuccessCardClose);
     document.addEventListener(`keydown`, onSuccessCardClose);
@@ -161,7 +161,7 @@
   const closeErrorMsg = () => {
     const errorMessage = document.querySelector(`.error`);
 
-    window.render.removeMessage(errorMessage);
+    window.view.removeMessage(errorMessage);
 
     document.removeEventListener(`mousedown`, onErrorMsgClose);
     document.removeEventListener(`keydown`, onErrorMsgClose);
@@ -196,7 +196,7 @@
         throw new Error(`Загружать можно только картинки, следующих форматов: gif, jpg, jpeg, png`);
       }
     } catch (err) {
-      window.render.renderCustomErrorMessage(err.message);
+      window.view.renderCustomErrorMessage(err.message);
 
       document.addEventListener(`mousedown`, onErrorMsgClose);
       document.addEventListener(`keydown`, onErrorMsgClose);
