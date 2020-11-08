@@ -70,45 +70,45 @@
     return `${pinCoordinates.x}, ${pinCoordinates.y}`;
   };
 
+  const moveMainPin = (mouseEvt) => {
+    const shift = {
+      x: mouseCoordinates.x - mouseEvt.clientX,
+      y: mouseCoordinates.y - mouseEvt.clientY
+    };
+
+    mouseCoordinates = {
+      x: mouseEvt.clientX,
+      y: mouseEvt.clientY
+    };
+
+    window.form.setAddress();
+
+    mapPinMain.style.left = pinCoordinates.x - shift.x >= MIN_X_COORDINATE && pinCoordinates.x - shift.x <= maxXCoordinate
+      ? `${String(mapPinMain.offsetLeft - shift.x)}px`
+      : `${String(mapPinMain.offsetLeft)}px`;
+
+    mapPinMain.style.top = pinCoordinates.y - shift.y >= MIN_Y_COORDINATE && pinCoordinates.y - shift.y <= MAX_Y_COORDINATE
+      ? `${String(mapPinMain.offsetTop - shift.y)}px`
+      : `${String(mapPinMain.offsetTop)}px`;
+  };
+
+  const onMouseMove = (mouseEvt) => {
+    mouseEvt.preventDefault();
+
+    moveMainPin(mouseEvt);
+  };
+
+  const onMouseUp = (upEvt) => {
+    upEvt.preventDefault();
+
+    document.removeEventListener(`mousemove`, onMouseMove);
+    document.removeEventListener(`mouseup`, onMouseUp);
+  };
+
   const mouseMoveHandler = (evt) => {
     mouseCoordinates = {
       x: evt.clientX,
       y: evt.clientY
-    };
-
-    const moveMainPin = (mouseEvt) => {
-      const shift = {
-        x: mouseCoordinates.x - mouseEvt.clientX,
-        y: mouseCoordinates.y - mouseEvt.clientY
-      };
-
-      mouseCoordinates = {
-        x: mouseEvt.clientX,
-        y: mouseEvt.clientY
-      };
-
-      window.form.setAddress();
-
-      mapPinMain.style.left = pinCoordinates.x - shift.x >= MIN_X_COORDINATE && pinCoordinates.x - shift.x <= maxXCoordinate
-        ? `${String(mapPinMain.offsetLeft - shift.x)}px`
-        : `${String(mapPinMain.offsetLeft)}px`;
-
-      mapPinMain.style.top = pinCoordinates.y - shift.y >= MIN_Y_COORDINATE && pinCoordinates.y - shift.y <= MAX_Y_COORDINATE
-        ? `${String(mapPinMain.offsetTop - shift.y)}px`
-        : `${String(mapPinMain.offsetTop)}px`;
-    };
-
-    const onMouseMove = (mouseEvt) => {
-      mouseEvt.preventDefault();
-
-      moveMainPin(mouseEvt);
-    };
-
-    const onMouseUp = (upEvt) => {
-      upEvt.preventDefault();
-
-      document.removeEventListener(`mousemove`, onMouseMove);
-      document.removeEventListener(`mouseup`, onMouseUp);
     };
 
     document.addEventListener(`mousemove`, onMouseMove);
