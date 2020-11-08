@@ -13,8 +13,8 @@
   const mapPinMain = document.querySelector(`.map__pin--main`);
   const maxXCoordinate = window.map.get().clientWidth;
 
-  let coordinateX;
-  let coordinateY;
+  let pinCoordinates;
+  let mouseCoordinates;
 
   const resetPosition = () => {
     mapPinMain.style.left = `${String(Math.floor(maxXCoordinate / 2) - MAIN_PIN_GAP)}px`;
@@ -27,7 +27,7 @@
         window.state.onAppActivation(evt, mapPinMain);
       }
 
-      onMove(evt);
+      mouseMoveHandler(evt);
     });
 
     mapPinMain.addEventListener(`keydown`, (evt) => {
@@ -56,42 +56,44 @@
     const pinHeight = mapPinMain.clientHeight;
     const activePinHeight = parseInt(getComputedStyle(mapPinMain, `:after`).height, DECIMAL_BASE);
 
-    coordinateX = Math.floor(pinOffsetX + (pinWidth / 2));
-    coordinateY = window.map.checkActivity()
-      ? Math.floor(pinOffsetY + pinHeight + activePinHeight)
-      : Math.floor(pinOffsetY + (pinHeight / 2));
+    pinCoordinates = {
+      x: Math.floor(pinOffsetX + (pinWidth / 2)),
+      y: window.map.checkActivity()
+        ? Math.floor(pinOffsetY + pinHeight + activePinHeight)
+        : Math.floor(pinOffsetY + (pinHeight / 2))
+    };
   };
 
   const getCoordinate = () => {
     setMapPinCoordinate();
 
-    return `${coordinateX}, ${coordinateY}`;
+    return `${pinCoordinates.x}, ${pinCoordinates.y}`;
   };
 
-  const onMove = (evt) => {
-    let startCoords = {
+  const mouseMoveHandler = (evt) => {
+    mouseCoordinates = {
       x: evt.clientX,
       y: evt.clientY
     };
 
     const moveMainPin = (mouseEvt) => {
       const shift = {
-        x: startCoords.x - mouseEvt.clientX,
-        y: startCoords.y - mouseEvt.clientY
+        x: mouseCoordinates.x - mouseEvt.clientX,
+        y: mouseCoordinates.y - mouseEvt.clientY
       };
 
-      startCoords = {
+      mouseCoordinates = {
         x: mouseEvt.clientX,
         y: mouseEvt.clientY
       };
 
       window.form.setAddress();
 
-      mapPinMain.style.left = coordinateX - shift.x >= MIN_X_COORDINATE && coordinateX - shift.x <= maxXCoordinate
+      mapPinMain.style.left = pinCoordinates.x - shift.x >= MIN_X_COORDINATE && pinCoordinates.x - shift.x <= maxXCoordinate
         ? `${String(mapPinMain.offsetLeft - shift.x)}px`
         : `${String(mapPinMain.offsetLeft)}px`;
 
-      mapPinMain.style.top = coordinateY - shift.y >= MIN_Y_COORDINATE && coordinateY - shift.y <= MAX_Y_COORDINATE
+      mapPinMain.style.top = pinCoordinates.y - shift.y >= MIN_Y_COORDINATE && pinCoordinates.y - shift.y <= MAX_Y_COORDINATE
         ? `${String(mapPinMain.offsetTop - shift.y)}px`
         : `${String(mapPinMain.offsetTop)}px`;
     };
@@ -100,7 +102,6 @@
       mouseEvt.preventDefault();
 
       moveMainPin(mouseEvt);
-      window.form.setAddress();
     };
 
     const onMouseUp = (upEvt) => {
@@ -125,7 +126,9 @@
   const deactivate = () => {
     const activePin = document.querySelector(`.map__pin--active`);
 
-    activePin.classList.remove(`map__pin--active`);
+    if (activePin) {
+      activePin.classList.remove(`map__pin--active`);
+    }
   };
 
   window.pin = {
