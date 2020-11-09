@@ -9,6 +9,7 @@
   const DEFAULT_AVATAR_IMAGE = `img/muffin-grey.svg`;
 
   const form = document.querySelector(`.ad-form`);
+  const errorMessage = document.querySelector(`.ad-form__error-message`);
 
   let clearButton;
   let errorButton;
@@ -43,9 +44,9 @@
   };
 
   const removeErrorMessage = () => {
-    const errorMessage = document.querySelector(`.error`);
+    const sendErrorMessage = document.querySelector(`.error`);
 
-    window.view.removeMessage(errorMessage);
+    window.view.removeMessage(sendErrorMessage);
 
     document.removeEventListener(`mousedown`, onErrorCardClose);
     errorButton.removeEventListener(`keydown`, onErrorCardClose);
@@ -158,10 +159,17 @@
     setPreview(reader, preview);
   };
 
-  const closeErrorMsg = () => {
-    const errorMessage = document.querySelector(`.error`);
+  const openErrorMessage = (msg) => {
+    errorMessage.querySelector(`.error-message__text`).textContent = msg;
+    errorMessage.classList.add(`error-message--show`);
+  };
 
-    window.view.removeMessage(errorMessage);
+  const closeErrorMessage = () => {
+    errorMessage.classList.remove(`error-message--show`);
+  };
+
+  const closeErrorMsg = () => {
+    closeErrorMessage();
 
     document.removeEventListener(`mousedown`, onErrorMsgClose);
     document.removeEventListener(`keydown`, onErrorMsgClose);
@@ -169,7 +177,11 @@
 
   const onErrorMsgClose = (evt) => {
     if (evt.type === `keydown`) {
-      window.util.pressEscape(evt, closeErrorMsg);
+      if (evt.target.classList.contains(`error-message__button`)) {
+        window.util.pressEnter(evt, closeErrorMsg);
+      } else {
+        window.util.pressEscape(evt, closeErrorMsg);
+      }
     } else if (evt.type === `mousedown`) {
       window.util.pressLeftMouseButton(evt, closeErrorMsg);
     }
@@ -193,10 +205,10 @@
 
         reader.readAsDataURL(file);
       } else {
-        throw new Error(`Загружать можно только картинки, следующих форматов: gif, jpg, jpeg, png`);
+        throw new Error(`Загружать можно только картинки, следующих форматов: gif, jpg, jpeg, png.`);
       }
     } catch (err) {
-      window.view.renderCustomErrorMessage(err.message);
+      openErrorMessage(err.message);
 
       document.addEventListener(`mousedown`, onErrorMsgClose);
       document.addEventListener(`keydown`, onErrorMsgClose);

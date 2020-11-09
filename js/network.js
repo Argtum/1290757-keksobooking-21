@@ -19,7 +19,7 @@
     if (xhr.status === StatusCode.OK) {
       onSuccess(xhr.response);
     } else {
-      onError(`Статус ответа: ${xhr.status} ${xhr.statusText}`);
+      onError(`Статус ответа: ${xhr.status} ${xhr.statusText}.`);
     }
 
     removeXhrListener(xhr);
@@ -32,13 +32,13 @@
   };
 
   const onXhrTimeoutCatch = (xhr, onError) => {
-    onError(`Запрос не успел выполниться за ${xhr.timeout} мс`);
+    onError(`Запрос не успел выполниться за ${xhr.timeout} мс.`);
 
     removeXhrListener(xhr);
   };
 
   const onXhrErrorCatch = (xhr, onError) => {
-    onError(`Произошла ошибка соединения`);
+    onError(`Произошла ошибка соединения.`);
 
     removeXhrListener(xhr);
   };

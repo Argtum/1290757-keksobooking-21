@@ -38,13 +38,6 @@
     map.insertBefore(fragment, cardPositionMarker);
   };
 
-  const renderData = () => {
-    window.data.get((data) => {
-      window.data.ads = data;
-      renderPins(window.filter.limitQuantity());
-    });
-  };
-
   const renderSuccessMessage = () => {
     const successMessageTemplate = document.querySelector(`#success`).content.querySelector(`.success`);
     const successMessage = successMessageTemplate.cloneNode(true);
@@ -63,30 +56,16 @@
     main.appendChild(fragment);
   };
 
-  const renderCustomErrorMessage = (msg) => {
-    const errorMessageTemplate = document.querySelector(`#error`).content.querySelector(`.error`);
-    const errorMessage = errorMessageTemplate.cloneNode();
-    const paragraph = document.createElement(`p`);
-
-    paragraph.innerHTML = msg;
-    paragraph.classList.add(`error__message`);
-
-    errorMessage.appendChild(paragraph);
-    main.appendChild(errorMessage);
-  };
-
   const removeMessage = (msg) => {
     main.removeChild(msg);
   };
 
   window.view = {
-    renderData,
     renderCard,
     renderPins,
     removePins,
     renderSuccessMessage,
     renderErrorMessage,
-    removeMessage,
-    renderCustomErrorMessage
+    removeMessage
   };
 })();

@@ -38,7 +38,7 @@
     window.form.setAddress();
     window.validation.setNumPlaces();
     window.validation.start();
-    window.view.renderData();
+    window.view.renderPins(window.filter.limitQuantity());
     window.filter.change();
     window.form.clear();
     window.form.setAvatar();

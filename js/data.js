@@ -36,22 +36,8 @@
     })[0][key][value];
   };
 
-  const loadWithError = (msg) => {
-    window.view.renderCustomErrorMessage(msg);
-
-    document.addEventListener(`mousedown`, window.form.onErrorMsgClose);
-    document.addEventListener(`keydown`, window.form.onErrorMsgClose);
-  };
-
-  const get = (onSuccess) => {
-    window.network.loadData(onSuccess, (msg) => {
-      loadWithError(msg);
-    });
-  };
-
   window.data = {
     getTypeValue,
-    get,
     ads
   };
 })();

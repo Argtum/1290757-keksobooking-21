@@ -12,6 +12,7 @@
 
   const mapPinMain = document.querySelector(`.map__pin--main`);
   const maxXCoordinate = window.map.get().clientWidth;
+  const errorMessage = document.querySelector(`.map__error-message`);
 
   let pinCoordinates;
   let mouseCoordinates;
@@ -21,10 +22,20 @@
     mapPinMain.style.top = `${String(MAIN_PIN_Y_DEFAULT)}px`;
   };
 
+  const openErrorMessage = (msg) => {
+    errorMessage.querySelector(`.error-message__text`).textContent = `${msg} Пожалуйста перезагрузите страницу`;
+    errorMessage.classList.add(`error-message--show`);
+  };
+
   const initApp = () => {
     mapPinMain.addEventListener(`mousedown`, (evt) => {
       if (!window.state.isActive()) {
-        window.state.onAppActivation(evt, mapPinMain);
+        window.network.loadData((data) => {
+          window.data.ads = data;
+          window.state.onAppActivation(evt, mapPinMain);
+        }, (msg) => {
+          openErrorMessage(msg);
+        });
       }
 
       mouseMoveHandler(evt);
@@ -32,7 +43,12 @@
 
     mapPinMain.addEventListener(`keydown`, (evt) => {
       if (!window.state.isActive()) {
-        window.state.onAppActivation(evt, mapPinMain);
+        window.network.loadData((data) => {
+          window.data.ads = data;
+          window.state.onAppActivation(evt, mapPinMain);
+        }, (msg) => {
+          openErrorMessage(msg);
+        });
       }
     });
   };
