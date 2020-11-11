@@ -28,7 +28,7 @@
     window.card.stopClickOnMapHandler();
   };
 
-  const activate = (mapPinMain) => {
+  const activate = () => {
     isActively = true;
 
     window.map.toggle();
@@ -45,24 +45,19 @@
     window.form.setPhoto();
     window.form.startHandling();
     window.card.clickOnMapHandler();
-
-    mapPinMain.removeEventListener(`mousedown`, onAppActivation);
-    mapPinMain.removeEventListener(`keydown`, onAppActivation);
   };
 
-  const onAppActivation = (evt, mapPinMain) => {
+  const onAppActivation = (evt) => {
     if (evt.type === `keydown`) {
-      window.util.pressEnter(evt, () => {
-        activate(mapPinMain);
-      });
+      window.util.pressEnter(evt, window.data.load);
     } else if (evt.type === `mousedown`) {
-      window.util.pressLeftMouseButton(evt, () => {
-        activate(mapPinMain);
-      });
+      window.util.pressLeftMouseButton(evt, window.pin.mouseMoveHandler);
+      window.util.pressLeftMouseButton(evt, window.data.load);
     }
   };
 
   window.state = {
+    activate,
     deactivate,
     onAppActivation,
     isActive

@@ -28,6 +28,8 @@
     }
   ];
 
+  const errorMessage = document.querySelector(`.map__error-message`);
+
   let ads;
 
   const getTypeValue = (key, value) => {
@@ -36,8 +38,25 @@
     })[0][key][value];
   };
 
+  const openErrorMessage = (msg) => {
+    errorMessage.querySelector(`.error-message__text`).textContent = `${msg} Пожалуйста перезагрузите страницу`;
+    errorMessage.classList.add(`error-message--show`);
+  };
+
+  const load = () => {
+    if (!window.state.isActive()) {
+      window.network.loadData((data) => {
+        window.data.ads = data;
+        window.state.activate();
+      }, (msg) => {
+        openErrorMessage(msg);
+      });
+    }
+  };
+
   window.data = {
     getTypeValue,
+    load,
     ads
   };
 })();
