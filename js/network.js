@@ -25,12 +25,6 @@
     removeXhrListener(xhr);
   };
 
-  const onXhrUpload = (xhr, onSuccess) => {
-    onSuccess(xhr.response);
-
-    removeXhrListener(xhr);
-  };
-
   const onXhrTimeoutCatch = (xhr, onError) => {
     onError(`Запрос не успел выполниться за ${xhr.timeout} мс.`);
 
@@ -50,7 +44,7 @@
     xhr.responseType = RESPONSE_DATA_TYPE;
 
     xhr.addEventListener(`load`, () => {
-      onXhrUpload(xhr, onSuccess);
+      onXhrLoad(xhr, onSuccess, onError);
     });
 
     xhr.addEventListener(`error`, () => {
