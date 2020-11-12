@@ -30,7 +30,7 @@
 
   const errorMessage = document.querySelector(`.map__error-message`);
 
-  let ads;
+  let advertisements;
 
   const getTypeValue = (key, value) => {
     return TYPES.filter((item) => {
@@ -46,7 +46,7 @@
   const load = () => {
     if (!window.state.isActive()) {
       window.network.loadData((data) => {
-        window.data.ads = data;
+        advertisements = data;
         window.state.activate();
       }, (msg) => {
         openErrorMessage(msg);
@@ -54,9 +54,13 @@
     }
   };
 
+  const get = () => {
+    return advertisements;
+  };
+
   window.data = {
     getTypeValue,
     load,
-    ads
+    get
   };
 })();

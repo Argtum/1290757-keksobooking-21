@@ -15,7 +15,7 @@
 
   let lastTimeout;
 
-  const limitQuantity = (data = window.data.ads) => {
+  const limitQuantity = (data = window.data.get()) => {
     return data.slice(0, QUANTITY);
   };
 
@@ -47,7 +47,7 @@
       return !(housingPrice.value === PRICE_RANGE_HIGH && (price <= PRICE_UPPER_LIMIT));
     };
 
-    const filteredPins = window.data.ads.filter((item) => {
+    const filteredPins = window.data.get().filter((item) => {
       return (housingType.value === ANY_FILTER_VALUE || housingType.value === item.offer.type)
         && (housingPrice.value === ANY_FILTER_VALUE || checkPrice(item.offer.price))
         && (housingRoom.value === ANY_FILTER_VALUE || parseInt(housingRoom.value, DECIMAL_BASE) === item.offer.rooms)

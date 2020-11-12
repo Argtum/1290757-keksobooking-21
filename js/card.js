@@ -67,7 +67,7 @@
   const getCardData = (target) => {
     const name = target.alt ? target.alt : target.querySelector(`img`).alt;
 
-    return window.data.ads.filter((item) => {
+    return window.data.get().filter((item) => {
       return item.offer.title === name;
     });
   };
